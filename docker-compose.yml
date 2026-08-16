@@ -1,0 +1,22 @@
+# Base de données PostgreSQL + PostGIS de la plateforme (chapitre 6).
+# Usage : docker compose up -d
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: collectivites_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: collectivites
+    ports:
+      - "5433:5432"   # 5433 côté hôte pour éviter le conflit avec le PostgreSQL 18 local
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d collectivites"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

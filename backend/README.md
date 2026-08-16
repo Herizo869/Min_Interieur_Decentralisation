@@ -1,0 +1,58 @@
+# Collectivites.Api
+
+API ASP.NET Core 8 de la plateforme de gestion, suivi et visualisation géographique
+des collectivités territoriales (chapitre 6 du cahier des charges).
+
+## Architecture
+
+```
+Controllers / Services / Data
+├── Controllers/   → Points d'entrée HTTP (CollectivitesController…)
+├── Services/      → Logique métier (CollectiviteService…)
+├── Data/          → AppDbContext (EF Core + PostGIS)
+└── Models/
+    ├── Entities/  → Collectivité (Commune/Département/Région/EPCI),
+    │                Signalement (Litige/Doléance), ProjetDotation,
+    │                Indicateur, Utilisateur, Historique
+    └── Enums/     → Rôles, statuts, catégories
+```
+
+## Prérequis
+
+- .NET SDK 8 (ou supérieur, rétrocompatible)
+- PostgreSQL avec l'extension PostGIS :
+  - soit local (PostgreSQL 18 installé sur la machine de dev),
+  - soit via Docker : `docker compose up -d` à la racine du dépôt.
+
+## Configuration
+
+La chaîne de connexion se trouve dans `appsettings.json` :
+`Host=localhost;Port=5432;Database=collectivites;Username=postgres;Password=...`
+
+## Démarrage
+
+```bash
+cd backend
+dotnet run
+```
+
+Swagger (documentation de l'API) : https://localhost:PORT/swagger
+
+## Base de données
+
+- **Migration initiale déjà générée** : `Migrations/InitialCreate` (création de
+  l'extension PostGIS + 7 tables, géométries SRID 4326).
+- Pour installer PostgreSQL + PostGIS via Docker (WSL2 requis) : voir
+  [`docs/SETUP_DOCKER_WSL2.md`](../docs/SETUP_DOCKER_WSL2.md).
+- Une fois la base disponible : `dotnet ef database update`
+
+## État d'avancement (MVP)
+
+- ✅ Squelette ASP.NET Core 8 (architecture Controllers / Services / Data)
+- ✅ Contexte EF Core + Npgsql + NetTopologySuite (PostGIS)
+- ✅ Entités du modèle de données (chapitre 4) + énumérations
+- ✅ Migration initiale générée
+- ✅ Recherche de collectivités (UC-04) et fiche collectivité (UC-03)
+- ⏳ Import du référentiel (UC-05), doléances (UC-11/12), litiges (UC-09/10/14)
+- ⏳ Authentification (UC-01/02/13) et sécurité
+- ⏳ Frontend React + TypeScript + Leaflet/MapLibre

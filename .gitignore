@@ -1,0 +1,26 @@
+# .NET
+bin/
+obj/
+*.user
+
+# Cahier des charges (Word)
+*.docx
+*.txt
+Stage.sln
+
+# Dossiers de travail (UML, docs, scripts)
+uml/
+docs/
+scripts/
+
+# Fichiers temporaires de génération
+_docx_build/
+_verify/
+
+# IDE
+.vs/
+.idea/
+*.suo
+
+# Divers
+*.log
