@@ -10,7 +10,8 @@ public abstract class Collectivite
 {
     public Guid Id { get; set; }
 
-    public string CodeInsee { get; set; } = string.Empty;
+    /// <summary>Code administratif unique (ex. code INSTAT / RGPH à Madagascar).</summary>
+    public string CodeAdministratif { get; set; } = string.Empty;
 
     public string Nom { get; set; } = string.Empty;
 

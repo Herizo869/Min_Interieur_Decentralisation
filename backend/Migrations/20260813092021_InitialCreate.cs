@@ -20,7 +20,7 @@ namespace Collectivites.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    CodeInsee = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    CodeAdministratif = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
                     Nom = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Population = table.Column<int>(type: "integer", nullable: false),
                     Contour = table.Column<Geometry>(type: "geometry(MultiPolygon, 4326)", nullable: false),
@@ -181,9 +181,9 @@ namespace Collectivites.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Collectivites_CodeInsee",
+                name: "IX_Collectivites_CodeAdministratif",
                 table: "Collectivites",
-                column: "CodeInsee",
+                column: "CodeAdministratif",
                 unique: true);
 
             migrationBuilder.CreateIndex(

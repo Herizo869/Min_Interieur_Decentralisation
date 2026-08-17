@@ -48,7 +48,7 @@ namespace Collectivites.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CodeInsee")
+                    b.Property<string>("CodeAdministratif")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
@@ -72,7 +72,7 @@ namespace Collectivites.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CodeInsee")
+                    b.HasIndex("CodeAdministratif")
                         .IsUnique();
 
                     b.ToTable("Collectivites");

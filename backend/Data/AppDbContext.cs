@@ -44,13 +44,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                   .HasValue<Epci>("Epci");
 
             entity.HasKey(c => c.Id);
-            entity.Property(c => c.CodeInsee).HasMaxLength(10).IsRequired();
+            entity.Property(c => c.CodeAdministratif).HasMaxLength(10).IsRequired();
             entity.Property(c => c.Nom).HasMaxLength(200).IsRequired();
 
             // Colonne géométrique PostGIS (SRID 4326, WGS84)
             entity.Property(c => c.Contour).HasColumnType("geometry(MultiPolygon, 4326)");
 
-            entity.HasIndex(c => c.CodeInsee).IsUnique();
+            entity.HasIndex(c => c.CodeAdministratif).IsUnique();
         });
 
         // ---- Hiérarchie Signalement (TPH) ----

@@ -12,7 +12,7 @@ public class Indicateur
     /// <summary>Unité de mesure de la valeur (ex. habitants, €, %) — chapitre 4.</summary>
     public string Unite { get; set; } = string.Empty;
 
-    /// <summary>Provenance de la valeur (ex. INSEE, préfecture) — chapitre 4.</summary>
+    /// <summary>Provenance de la valeur (ex. INSTAT, préfecture) — chapitre 4.</summary>
     public string Source { get; set; } = string.Empty;
 
     public DateTime DateReleve { get; set; }

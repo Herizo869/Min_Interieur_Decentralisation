@@ -16,7 +16,7 @@ public class CollectiviteService(AppDbContext db) : ICollectiviteService
             var terme = recherche.Trim();
             query = query.Where(c =>
                 EF.Functions.ILike(c.Nom, $"%{terme}%") ||
-                c.CodeInsee.StartsWith(terme));
+                c.CodeAdministratif.StartsWith(terme));
         }
 
         // Filtre par sous-type (commune / département / région / epci)
