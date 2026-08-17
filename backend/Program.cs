@@ -16,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Couche Services (architecture en couches : Controllers / Services / Data)
 builder.Services.AddScoped<ICollectiviteService, CollectiviteService>();
+builder.Services.AddScoped<ICollectiviteImportService, CollectiviteImportService>();
 
 var app = builder.Build();
 
