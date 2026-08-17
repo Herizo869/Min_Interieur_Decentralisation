@@ -6,7 +6,7 @@ services:
     container_name: collectivites_db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: 1234
       POSTGRES_DB: collectivites
     ports:
       - "5433:5432"   # 5433 côté hôte pour éviter le conflit avec le PostgreSQL 18 local

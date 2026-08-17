@@ -3,6 +3,11 @@ bin/
 obj/
 *.user
 
+# Configuration (JSON / YAML) — appsettings, launchSettings, etc.
+*.json
+*.yml
+*.yaml
+
 # Cahier des charges (Word)
 *.docx
 *.txt
