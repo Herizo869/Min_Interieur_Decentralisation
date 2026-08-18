@@ -58,6 +58,8 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
 - ⏳ Doléances (UC-11/12), litiges (UC-09/10/14), projets/dotations (UC-06),
   indicateurs (UC-07), exports (UC-08)
 - ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
-- ⏳ Gestion des utilisateurs (UC-02), réinitialisation mot de passe (UC-13)
+- ✅ Gestion des utilisateurs (UC-02) : CRUD comptes, rôles, désactivation,
+  changement de mot de passe, périmètre d'accès — réservé au rôle Administrateur
+- ⏳ Réinitialisation mot de passe (UC-13)
 - ⏳ Tableau de bord (UC-15)
 - ⏳ Frontend React + TypeScript + Leaflet/MapLibre

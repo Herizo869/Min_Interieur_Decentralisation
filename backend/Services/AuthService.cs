@@ -28,6 +28,12 @@ public class AuthService(AppDbContext db, IOptions<JwtOptions> options) : IAuthS
             throw new UnauthorizedAccessException("Identifiant ou mot de passe invalide.");
         }
 
+        // Compte désactivé : accès refusé (UC-02)
+        if (!utilisateur.Actif)
+        {
+            throw new UnauthorizedAccessException("Ce compte a été désactivé.");
+        }
+
         var jwt = options.Value;
         var revendications = new[]
         {

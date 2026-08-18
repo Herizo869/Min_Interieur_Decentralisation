@@ -17,6 +17,9 @@ public class Utilisateur
     /// <summary>Mot de passe hashé (bcrypt / Argon2).</summary>
     public string MotDePasseHash { get; set; } = string.Empty;
 
+    /// <summary>Compte actif ou désactivé (UC-02 : désactivation des comptes).</summary>
+    public bool Actif { get; set; } = true;
+
     /// <summary>Périmètre d'accès géographique de l'utilisateur (association *-* avec Collectivité).</summary>
     public ICollection<Collectivite> CollectivitesAcces { get; set; } = new List<Collectivite>();
 }
