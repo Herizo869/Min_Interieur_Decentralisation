@@ -11,6 +11,7 @@ obj/
 # Cahier des charges (Word)
 *.docx
 *.txt
+FRONTEND_MODULES.md
 Stage.sln
 
 # Dossiers de travail (UML, docs, scripts)
