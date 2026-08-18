@@ -53,6 +53,11 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
 - ✅ Entités du modèle de données (chapitre 4) + énumérations
 - ✅ Migration initiale générée
 - ✅ Recherche de collectivités (UC-04) et fiche collectivité (UC-03)
-- ⏳ Import du référentiel (UC-05), doléances (UC-11/12), litiges (UC-09/10/14)
-- ⏳ Authentification (UC-01/02/13) et sécurité
+- ✅ Import du référentiel (UC-05) : GeoJSON seul (création/mise à jour par CodeAdministratif,
+  rapport d'erreurs par ligne) — Shapefile non supporté
+- ⏳ Doléances (UC-11/12), litiges (UC-09/10/14), projets/dotations (UC-06),
+  indicateurs (UC-07), exports (UC-08)
+- ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
+- ⏳ Gestion des utilisateurs (UC-02), réinitialisation mot de passe (UC-13)
+- ⏳ Tableau de bord (UC-15)
 - ⏳ Frontend React + TypeScript + Leaflet/MapLibre
