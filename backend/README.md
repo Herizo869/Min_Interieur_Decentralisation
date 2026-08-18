@@ -64,7 +64,8 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
 - ✅ Litiges (UC-14/10/09) : signalement manuel, détection automatique des
   chevauchements (pairwise NTS), calcul de la zone de conflit (intersection),
   traitement par statut, traçabilité (Historique)
-- ⏳ Exports CSV/Excel (UC-08)
+- ✅ Exports (UC-08) : CSV par ressource (doléances, litiges, projets, indicateurs),
+  séparateur « ; », UTF-8 BOM pour Excel FR, filtrage par collectivité/statut
 - ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
 - ✅ Gestion des utilisateurs (UC-02) : CRUD comptes, rôles, désactivation,
   changement de mot de passe, périmètre d'accès — réservé au rôle Administrateur
