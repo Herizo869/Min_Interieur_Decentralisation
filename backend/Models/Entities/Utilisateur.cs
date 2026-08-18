@@ -20,6 +20,12 @@ public class Utilisateur
     /// <summary>Compte actif ou désactivé (UC-02 : désactivation des comptes).</summary>
     public bool Actif { get; set; } = true;
 
+    /// <summary>Token de réinitialisation de mot de passe à usage unique (UC-13).</summary>
+    public string? TokenReinitialisation { get; set; }
+
+    /// <summary>Expiration du token de réinitialisation (UC-13).</summary>
+    public DateTime? TokenExpiration { get; set; }
+
     /// <summary>Périmètre d'accès géographique de l'utilisateur (association *-* avec Collectivité).</summary>
     public ICollection<Collectivite> CollectivitesAcces { get; set; } = new List<Collectivite>();
 }

@@ -69,6 +69,8 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
 - ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
 - ✅ Gestion des utilisateurs (UC-02) : CRUD comptes, rôles, désactivation,
   changement de mot de passe, périmètre d'accès — réservé au rôle Administrateur
-- ⏳ Réinitialisation mot de passe (UC-13)
-- ⏳ Tableau de bord (UC-15)
+- ✅ Réinitialisation mot de passe (UC-13) : forgot-password + reset-password,
+  token à usage unique (30 min), anti-énumération de comptes
+- ✅ Tableau de bord (UC-15) : synthèses chiffrées (collectivités par type,
+  projets/montants, indicateurs, litiges/doléances par statut, utilisateurs)
 - ⏳ Frontend React + TypeScript + Leaflet/MapLibre

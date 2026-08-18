@@ -38,4 +38,44 @@ public class AuthController(IAuthService authService) : ControllerBase
         Nom = User.FindFirstValue(ClaimTypes.Name),
         Role = User.FindFirstValue(ClaimTypes.Role)
     });
+
+    /// <summary>Demander la réinitialisation du mot de passe (UC-13) — étape 1.</summary>
+    /// <param name="demande">Identifiant de l'utilisateur.</param>
+    [HttpPost("forgot-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword(
+        [FromBody] DemanderReinitialisationRequest demande, CancellationToken ct)
+    {
+        try
+        {
+            var reponse = await authService.DemanderReinitialisationAsync(demande, ct);
+            return Ok(reponse);
+        }
+        catch (InvalidOperationException)
+        {
+            // Même message que l'identifiant inconnu — pas d'énumération de comptes
+            return Ok(new ReinitialiserMotDePasseResponse
+            {
+                Message = "Si cet identifiant existe, un token de réinitialisation a été généré."
+            });
+        }
+    }
+
+    /// <summary>Réinitialiser le mot de passe avec le token (UC-13) — étape 2.</summary>
+    /// <param name="demande">Identifiant, token et nouveau mot de passe.</param>
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword(
+        [FromBody] ReinitialiserMotDePasseRequest demande, CancellationToken ct)
+    {
+        try
+        {
+            await authService.ReinitialiserMotDePasseAsync(demande, ct);
+            return Ok(new { message = "Mot de passe réinitialisé avec succès. Vous pouvez vous reconnecter." });
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Unauthorized(new { message = "Token invalide ou expiré." });
+        }
+    }
 }
