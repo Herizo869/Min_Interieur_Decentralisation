@@ -144,6 +144,77 @@ public class LitigeService(AppDbContext db) : ILitigeService
         return VersReponse(litige, collectiviteA?.Nom, collectiviteB?.Nom);
     }
 
+    public async Task<DetectionResultatResponse> DetecterAsync(CancellationToken ct = default)
+    {
+        // 1. Charger toutes les collectivités (contours inclus)
+        var collectivites = await db.Collectivites.AsNoTracking().ToListAsync(ct);
+
+        // 2. Paires existantes : ne pas recréer un litige déjà signalé
+        var pairesExistantes = (await db.Litiges.AsNoTracking().ToListAsync(ct))
+            .Select(l => ClePaire(l.CollectiviteAId, l.CollectiviteBId))
+            .ToHashSet();
+
+        var resultat = new DetectionResultatResponse();
+
+        // 3. Comparaison pairwise (O(n²) — raisonnable pour ~300 communes pilotes)
+        for (var i = 0; i < collectivites.Count; i++)
+        {
+            for (var j = i + 1; j < collectivites.Count; j++)
+            {
+                var a = collectivites[i];
+                var b = collectivites[j];
+
+                if (!a.Contour.Intersects(b.Contour))
+                {
+                    continue;
+                }
+
+                var cle = ClePaire(a.Id, b.Id);
+                if (pairesExistantes.Contains(cle))
+                {
+                    continue;
+                }
+
+                // Calcul de la zone de conflit = intersection géométrique
+                var intersection = a.Contour.Intersection(b.Contour);
+                intersection.SRID = 4326;
+
+                var litige = new Litige
+                {
+                    Id = Guid.NewGuid(),
+                    Description = $"Chevauchement détecté automatiquement entre « {a.Nom} » et « {b.Nom} »",
+                    Statut = StatutLitige.Signale,
+                    DateCreation = DateTime.UtcNow,
+                    ZoneConflit = intersection,
+                    // Géométrie = centroïde de la zone de conflit (point répresentatif)
+                    Geometrie = intersection.Centroid,
+                    CollectiviteAId = a.Id,
+                    CollectiviteBId = b.Id
+                };
+
+                db.Litiges.Add(litige);
+
+                db.Historiques.Add(new Historique
+                {
+                    Id = Guid.NewGuid(),
+                    Entite = "Litige",
+                    EntiteId = litige.Id,
+                    Action = "création (détection automatique)",
+                    Auteur = "Système",
+                    Date = DateTime.UtcNow
+                });
+
+                resultat.Litiges.Add(VersReponse(litige, a.Nom, b.Nom));
+            }
+        }
+
+        await db.SaveChangesAsync(ct);
+        resultat.Detectes = resultat.Litiges.Count;
+        return resultat;
+    }
+
+    private static string ClePaire(Guid a, Guid b) => a.CompareTo(b) < 0 ? $"{a}|{b}" : $"{b}|{a}";
+
     private static LitigeResponse VersReponse(Litige l, string nomA, string nomB) => new()
     {
         Id = l.Id,

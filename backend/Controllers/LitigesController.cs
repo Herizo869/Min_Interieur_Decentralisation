@@ -50,4 +50,13 @@ public class LitigesController(ILitigeService service) : ControllerBase
         var litige = await service.ChangerStatutAsync(id, demande.Statut, auteur, ct);
         return litige is null ? NotFound() : Ok(litige);
     }
+
+    /// <summary>Lancer la détection automatique des chevauchements de collectivités (UC-09, admin).</summary>
+    [HttpPost("detecter")]
+    [Authorize(Roles = "Administrateur")]
+    public async Task<IActionResult> Detecter(CancellationToken ct)
+    {
+        var resultat = await service.DetecterAsync(ct);
+        return Ok(resultat);
+    }
 }

@@ -18,4 +18,11 @@ public interface ILitigeService
 
     /// <summary>Change le statut d'un litige et trace l'action (UC-10).</summary>
     Task<LitigeResponse?> ChangerStatutAsync(Guid id, StatutLitige statut, string auteur, CancellationToken ct = default);
+
+    /// <summary>
+    /// Détecte automatiquement les chevauchements de collectivités (UC-09).
+    /// Compare toutes les paires de contours (NTS Intersects), crée un litige
+    /// pour chaque chevauchement non encore couvert par un litige existant.
+    /// </summary>
+    Task<DetectionResultatResponse> DetecterAsync(CancellationToken ct = default);
 }

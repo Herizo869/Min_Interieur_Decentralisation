@@ -49,3 +49,13 @@ public class LitigeResponse
     /// <summary>Géométrie du constat terrain.</summary>
     public Geometry Geometrie { get; set; } = null!;
 }
+
+/// <summary>Résultat de la détection automatique des chevauchements (UC-09).</summary>
+public class DetectionResultatResponse
+{
+    /// <summary>Nombre de chevauchements détectés.</summary>
+    public int Detectes { get; set; }
+
+    /// <summary>Litiges créés automatiquement.</summary>
+    public List<LitigeResponse> Litiges { get; set; } = new();
+}

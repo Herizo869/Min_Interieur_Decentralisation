@@ -61,9 +61,10 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
   filtres par collectivité et par type
 - ✅ Doléances citoyennes (UC-11/12) : dépôt public géolocalisé, rattachement
   automatique ST_Contains, numéro de suivi, traitement par statut, traçabilité (Historique)
-- ✅ Litiges (UC-14/10) : signalement manuel, calcul automatique de la zone de conflit
-  (intersection NTS), traitement par statut, traçabilité (Historique)
-- ⏳ Détection automatique des litiges (UC-09), exports (UC-08)
+- ✅ Litiges (UC-14/10/09) : signalement manuel, détection automatique des
+  chevauchements (pairwise NTS), calcul de la zone de conflit (intersection),
+  traitement par statut, traçabilité (Historique)
+- ⏳ Exports CSV/Excel (UC-08)
 - ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
 - ✅ Gestion des utilisateurs (UC-02) : CRUD comptes, rôles, désactivation,
   changement de mot de passe, périmètre d'accès — réservé au rôle Administrateur
