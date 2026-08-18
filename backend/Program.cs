@@ -1,5 +1,6 @@
 using System.Text;
 using Collectivites.Api.Data;
+using Collectivites.Api.Models.Converters;
 using Collectivites.Api.Models.Entities;
 using Collectivites.Api.Models.Enums;
 using Collectivites.Api.Models.Options;
@@ -12,7 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
-        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+        options.JsonSerializerOptions.Converters.Add(new DateTimeUtcJsonConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -47,6 +51,7 @@ builder.Services.AddScoped<ICollectiviteService, CollectiviteService>();
 builder.Services.AddScoped<ICollectiviteImportService, CollectiviteImportService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUtilisateurService, UtilisateurService>();
+builder.Services.AddScoped<IProjetDotationService, ProjetDotationService>();
 
 var app = builder.Build();
 

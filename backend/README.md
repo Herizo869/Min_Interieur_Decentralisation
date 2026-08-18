@@ -55,8 +55,9 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
 - ✅ Recherche de collectivités (UC-04) et fiche collectivité (UC-03)
 - ✅ Import du référentiel (UC-05) : GeoJSON seul (création/mise à jour par CodeAdministratif,
   rapport d'erreurs par ligne) — Shapefile non supporté
-- ⏳ Doléances (UC-11/12), litiges (UC-09/10/14), projets/dotations (UC-06),
-  indicateurs (UC-07), exports (UC-08)
+- ✅ Projets & dotations (UC-06) : CRUD complet (montant, devise, statut, dates),
+  filtre par collectivité — réservé aux utilisateurs authentifiés
+- ⏳ Doléances (UC-11/12), litiges (UC-09/10/14), indicateurs (UC-07), exports (UC-08)
 - ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
 - ✅ Gestion des utilisateurs (UC-02) : CRUD comptes, rôles, désactivation,
   changement de mot de passe, périmètre d'accès — réservé au rôle Administrateur
