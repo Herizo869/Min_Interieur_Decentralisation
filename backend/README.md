@@ -59,7 +59,9 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
   filtre par collectivité — réservé aux utilisateurs authentifiés
 - ✅ Indicateurs (UC-07) : CRUD complet (type, valeur, unité, source, dateRelevé),
   filtres par collectivité et par type
-- ⏳ Doléances (UC-11/12), litiges (UC-09/10/14), exports (UC-08)
+- ✅ Doléances citoyennes (UC-11/12) : dépôt public géolocalisé, rattachement
+  automatique ST_Contains, numéro de suivi, traitement par statut, traçabilité (Historique)
+- ⏳ Litiges (UC-09/10/14), exports (UC-08)
 - ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
 - ✅ Gestion des utilisateurs (UC-02) : CRUD comptes, rôles, désactivation,
   changement de mot de passe, périmètre d'accès — réservé au rôle Administrateur

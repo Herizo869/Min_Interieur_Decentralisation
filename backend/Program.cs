@@ -2,6 +2,7 @@ using System.Text;
 using Collectivites.Api.Data;
 using Collectivites.Api.Models.Converters;
 using Collectivites.Api.Models.Entities;
+using NetTopologySuite.IO.Converters;
 using Collectivites.Api.Models.Enums;
 using Collectivites.Api.Models.Options;
 using Collectivites.Api.Services;
@@ -16,6 +17,7 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
         options.JsonSerializerOptions.Converters.Add(new DateTimeUtcJsonConverter());
+        options.JsonSerializerOptions.Converters.Add(new GeoJsonConverterFactory());
     });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -53,6 +55,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUtilisateurService, UtilisateurService>();
 builder.Services.AddScoped<IProjetDotationService, ProjetDotationService>();
 builder.Services.AddScoped<IIndicateurService, IndicateurService>();
+builder.Services.AddScoped<IDoleanceService, DoleanceService>();
 
 var app = builder.Build();
 
