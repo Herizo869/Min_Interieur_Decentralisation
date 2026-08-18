@@ -57,7 +57,9 @@ Swagger (documentation de l'API) : https://localhost:PORT/swagger
   rapport d'erreurs par ligne) — Shapefile non supporté
 - ✅ Projets & dotations (UC-06) : CRUD complet (montant, devise, statut, dates),
   filtre par collectivité — réservé aux utilisateurs authentifiés
-- ⏳ Doléances (UC-11/12), litiges (UC-09/10/14), indicateurs (UC-07), exports (UC-08)
+- ✅ Indicateurs (UC-07) : CRUD complet (type, valeur, unité, source, dateRelevé),
+  filtres par collectivité et par type
+- ⏳ Doléances (UC-11/12), litiges (UC-09/10/14), exports (UC-08)
 - ✅ Authentification (UC-01) : login JWT + bcrypt, seed admin (admin / Admin@1234)
 - ✅ Gestion des utilisateurs (UC-02) : CRUD comptes, rôles, désactivation,
   changement de mot de passe, périmètre d'accès — réservé au rôle Administrateur

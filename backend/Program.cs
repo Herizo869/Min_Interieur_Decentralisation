@@ -52,6 +52,7 @@ builder.Services.AddScoped<ICollectiviteImportService, CollectiviteImportService
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUtilisateurService, UtilisateurService>();
 builder.Services.AddScoped<IProjetDotationService, ProjetDotationService>();
+builder.Services.AddScoped<IIndicateurService, IndicateurService>();
 
 var app = builder.Build();
 
