@@ -56,6 +56,7 @@ builder.Services.AddScoped<IUtilisateurService, UtilisateurService>();
 builder.Services.AddScoped<IProjetDotationService, ProjetDotationService>();
 builder.Services.AddScoped<IIndicateurService, IndicateurService>();
 builder.Services.AddScoped<IDoleanceService, DoleanceService>();
+builder.Services.AddScoped<ILitigeService, LitigeService>();
 
 var app = builder.Build();
 
