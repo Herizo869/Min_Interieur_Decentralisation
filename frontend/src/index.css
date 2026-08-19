@@ -2582,6 +2582,382 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ============================
+   Dépôt Doléance (Sprint 4.1)
+   ============================ */
+.doleance-public-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px;
+  background: var(--bg);
+}
+
+.doleance-public-card {
+  width: 100%;
+  max-width: 680px;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+  animation: slideUp 0.3s ease-out;
+}
+
+.doleance-form-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.doleance-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+
+.doleance-back:hover {
+  background: var(--bg);
+  color: var(--text-h);
+  border-color: var(--text-light);
+}
+
+.doleance-form-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 4px;
+}
+
+.doleance-form-header p {
+  color: var(--text-light);
+  font-size: 14px;
+  margin: 0;
+}
+
+.doleance-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Carte */
+.doleance-map-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.doleance-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.doleance-hint {
+  font-size: 13px;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.doleance-map-wrapper {
+  position: relative;
+  height: 280px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  transition: all var(--transition);
+}
+
+.doleance-map-wrapper:focus-within,
+.doleance-map-wrapper.input-error {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.doleance-map-wrapper.input-error {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.doleance-map-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(2px);
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.doleance-coords {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.doleance-clear-point {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: var(--danger);
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all var(--transition);
+}
+
+.doleance-clear-point:hover {
+  background: var(--danger-bg);
+}
+
+/* Champs */
+.doleance-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.doleance-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.doleance-field input,
+.doleance-field textarea {
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: var(--bg-white);
+  transition: all var(--transition);
+  resize: vertical;
+}
+
+.doleance-field input:focus,
+.doleance-field textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.doleance-field input.input-error,
+.doleance-field textarea.input-error {
+  border-color: var(--danger);
+}
+
+.doleance-field textarea::placeholder,
+.doleance-field input::placeholder {
+  color: #94a3b8;
+}
+
+.doleance-char-count {
+  font-size: 12px;
+  color: var(--text-light);
+  text-align: right;
+}
+
+/* Catégories */
+.doleance-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.doleance-cat-chip {
+  padding: 8px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--bg-white);
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.doleance-cat-chip:hover {
+  border-color: var(--primary-light);
+  background: var(--primary-50);
+}
+
+.doleance-cat-chip.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Bouton soumission */
+.doleance-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.doleance-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+}
+
+.doleance-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Succès */
+.doleance-success-card {
+  text-align: center;
+}
+
+.doleance-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--success-bg);
+  border: 2px solid #bbf7d0;
+  color: var(--success);
+  margin-bottom: 20px;
+}
+
+.doleance-success-card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 8px;
+}
+
+.doleance-success-text {
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.doleance-numero-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 28px;
+}
+
+.doleance-numero-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.doleance-numero-value {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 1px;
+}
+
+.doleance-numero-hint {
+  font-size: 13px;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+.doleance-success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.doleance-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.doleance-btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.doleance-btn-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: transparent;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.doleance-btn-outline:hover {
+  background: var(--bg);
+  border-color: var(--text-light);
+}
+
+/* ============================
    Responsive
    ============================ */
 @media (max-width: 1024px) {

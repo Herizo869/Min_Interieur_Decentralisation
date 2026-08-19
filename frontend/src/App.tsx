@@ -12,6 +12,7 @@ import ProjetsPage from './pages/projets/ProjetsPage'
 import IndicateursPage from './pages/indicateurs/IndicateursPage'
 import LitigesPage from './pages/litiges/LitigesPage'
 import DoleancesPage from './pages/doleances/DoleancesPage'
+import DoleanceFormPage from './pages/doleances/DoleanceFormPage'
 import ExportsPage from './pages/exports/ExportsPage'
 import UtilisateursPage from './pages/utilisateurs/UtilisateursPage'
 
@@ -21,6 +22,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Routes publiques */}
+          <Route path="/doleances/deposer" element={<DoleanceFormPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
