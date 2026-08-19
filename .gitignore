@@ -6,7 +6,7 @@ obj/
 # Configuration (JSON / YAML) — appsettings, launchSettings, etc.
 *.json
 *.yml
-*.yaml
+*.yml
 
 # Cahier des charges (Word)
 *.docx

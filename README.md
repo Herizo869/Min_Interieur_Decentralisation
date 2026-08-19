@@ -56,7 +56,7 @@ docker run -d \
   --name collectivites-db \
   -e POSTGRES_DB=collectivites \
   -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=1234 \
+  -e POSTGRES_PASSWORD=ton Mdp \
   -p 5433:5432 \
   postgis/postgis:16-3.4
 
@@ -73,7 +73,7 @@ Le fichier `backend/appsettings.json` contient :
 
 ```json
 "ConnectionStrings": {
-  "DefaultConnection": "Host=localhost;Port=5433;Database=collectivites;Username=postgres;Password=1234"
+  "DefaultConnection": "Host=localhost;Port=5433;Database=collectivites;Username=postgres;Password=tonMdp"
 }
 ```
 
@@ -140,7 +140,7 @@ docker run -d \
   --name collectivites-db \
   -e POSTGRES_DB=collectivites \
   -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=1234 \
+  -e POSTGRES_PASSWORD=tonMdp \
   -p 5433:5432 \
   postgis/postgis:16-3.4
 ```
