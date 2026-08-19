@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { MapPin, ArrowLeft, Eye, EyeOff, Loader2, CheckCircle } from 'lucide-react'
+import { Eye, EyeOff, Loader2, ArrowLeft, ArrowRight, CheckCircle, ShieldCheck } from 'lucide-react'
+import AuthLayout from '../../components/layout/AuthLayout'
 import { resetPassword } from '../../services/authService'
 
 const schema = z.object({
-  identifiant: z.string().min(1, 'L\'identifiant est requis'),
+  identifiant: z.string().min(1, "L'identifiant est requis"),
   token: z.string().min(1, 'Le token est requis'),
   nouveauMotDePasse: z
     .string()
@@ -51,127 +52,141 @@ export default function ResetPasswordPage() {
     }
   }
 
-  if (success) {
-    return (
-      <div className="auth-page">
-        <div className="auth-card">
-          <div className="auth-logo">
-            <CheckCircle size={40} className="text-success" />
-          </div>
-          <h1>Mot de passe réinitialisé</h1>
-          <p className="auth-subtitle">
-            Votre mot de passe a été modifié avec succès. Vous pouvez vous reconnecter.
-          </p>
-          <Link to="/login" className="btn-primary" style={{ display: 'block', textAlign: 'center', marginTop: 16 }}>
-            Se connecter
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-logo">
-          <MapPin size={40} />
+    <AuthLayout>
+      <div className="form-panel-inner">
+        <div className="form-panel-header">
+          <h2>Nouveau mot de passe</h2>
+          <p>
+            {success
+              ? 'Votre mot de passe a été modifié'
+              : 'Saisissez le token reçu et votre nouveau mot de passe'}
+          </p>
         </div>
-        <h1>Réinitialiser le mot de passe</h1>
-        <p className="auth-subtitle">
-          Saisissez votre identifiant, le token reçu et votre nouveau mot de passe.
-        </p>
 
-        {serverError && (
-          <div className="auth-error">{serverError}</div>
-        )}
-
-        <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-          <div className="form-group">
-            <label htmlFor="identifiant">Identifiant</label>
-            <input
-              id="identifiant"
-              type="text"
-              placeholder="Votre identifiant"
-              autoComplete="username"
-              {...register('identifiant')}
-            />
-            {errors.identifiant && (
-              <span className="form-error">{errors.identifiant.message}</span>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="token">Token de réinitialisation</label>
-            <input
-              id="token"
-              type="text"
-              placeholder="Token reçu par email"
-              {...register('token')}
-            />
-            {errors.token && (
-              <span className="form-error">{errors.token.message}</span>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="nouveauMotDePasse">Nouveau mot de passe</label>
-            <div className="password-wrapper">
-              <input
-                id="nouveauMotDePasse"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Minimum 8 caractères"
-                autoComplete="new-password"
-                {...register('nouveauMotDePasse')}
-              />
-              <button
-                type="button"
-                className="password-toggle"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
+        {success ? (
+          <div className="success-state">
+            <div className="success-icon-wrap success">
+              <ShieldCheck size={48} />
             </div>
-            {errors.nouveauMotDePasse && (
-              <span className="form-error">{errors.nouveauMotDePasse.message}</span>
-            )}
+            <h3>Mot de passe réinitialisé</h3>
+            <p className="success-text">
+              Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous reconnecter.
+            </p>
+            <Link to="/login" className="btn-modern" style={{ marginTop: 20 }}>
+              Se connecter
+              <ArrowRight size={18} />
+            </Link>
           </div>
-
-          <div className="form-group">
-            <label htmlFor="confirmation">Confirmer le mot de passe</label>
-            <input
-              id="confirmation"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Confirmez le mot de passe"
-              autoComplete="new-password"
-              {...register('confirmation')}
-            />
-            {errors.confirmation && (
-              <span className="form-error">{errors.confirmation.message}</span>
+        ) : (
+          <>
+            {serverError && (
+              <div className="alert alert-danger">{serverError}</div>
             )}
-          </div>
 
-          <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? (
-              <>
-                <Loader2 size={18} className="spin" />
-                Réinitialisation...
-              </>
-            ) : (
-              'Réinitialiser le mot de passe'
-            )}
-          </button>
-        </form>
+            <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
+              <div className="input-group">
+                <label htmlFor="identifiant">Identifiant</label>
+                <div className="input-wrapper">
+                  <input
+                    id="identifiant"
+                    type="text"
+                    placeholder="Votre identifiant"
+                    autoComplete="username"
+                    className={errors.identifiant ? 'input-error' : ''}
+                    {...register('identifiant')}
+                  />
+                </div>
+                {errors.identifiant && (
+                  <span className="field-error">{errors.identifiant.message}</span>
+                )}
+              </div>
 
-        <div className="auth-links">
-          <Link to="/login">
-            <ArrowLeft size={16} />
-            Retour à la connexion
-          </Link>
-          <Link to="/forgot-password">
-            Demander un nouveau token
-          </Link>
-        </div>
+              <div className="input-group">
+                <label htmlFor="token">Token de réinitialisation</label>
+                <div className="input-wrapper">
+                  <input
+                    id="token"
+                    type="text"
+                    placeholder="Collez le token reçu"
+                    className={errors.token ? 'input-error' : ''}
+                    {...register('token')}
+                  />
+                </div>
+                {errors.token && (
+                  <span className="field-error">{errors.token.message}</span>
+                )}
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="nouveauMotDePasse">Nouveau mot de passe</label>
+                <div className="input-wrapper">
+                  <input
+                    id="nouveauMotDePasse"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Minimum 8 caractères"
+                    autoComplete="new-password"
+                    className={errors.nouveauMotDePasse ? 'input-error' : ''}
+                    {...register('nouveauMotDePasse')}
+                  />
+                  <button
+                    type="button"
+                    className="input-icon-btn"
+                    onClick={() => setShowPassword(!showPassword)}
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                {errors.nouveauMotDePasse && (
+                  <span className="field-error">{errors.nouveauMotDePasse.message}</span>
+                )}
+              </div>
+
+              <div className="input-group">
+                <label htmlFor="confirmation">Confirmer le mot de passe</label>
+                <div className="input-wrapper">
+                  <input
+                    id="confirmation"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Confirmez le mot de passe"
+                    autoComplete="new-password"
+                    className={errors.confirmation ? 'input-error' : ''}
+                    {...register('confirmation')}
+                  />
+                </div>
+                {errors.confirmation && (
+                  <span className="field-error">{errors.confirmation.message}</span>
+                )}
+              </div>
+
+              <button type="submit" className="btn-modern" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2 size={18} className="spin" />
+                    Réinitialisation...
+                  </>
+                ) : (
+                  <>
+                    Réinitialiser le mot de passe
+                    <ArrowRight size={18} />
+                  </>
+                )}
+              </button>
+            </form>
+
+            <div className="form-footer-links">
+              <Link to="/login" className="btn-outline">
+                <ArrowLeft size={16} />
+                Retour à la connexion
+              </Link>
+              <Link to="/forgot-password" className="link-sm">
+                Demander un nouveau token
+              </Link>
+            </div>
+          </>
+        )}
       </div>
-    </div>
+    </AuthLayout>
   )
 }

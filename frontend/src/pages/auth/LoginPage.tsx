@@ -3,11 +3,12 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { MapPin, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react'
+import AuthLayout from '../../components/layout/AuthLayout'
 import { login, type LoginRequest } from '../../services/authService'
 
 const loginSchema = z.object({
-  identifiant: z.string().min(1, 'L\'identifiant est requis'),
+  identifiant: z.string().min(1, "L'identifiant est requis"),
   motDePasse: z.string().min(1, 'Le mot de passe est requis'),
 })
 
@@ -37,7 +38,6 @@ export default function LoginPage() {
       }
       const response = await login(payload)
 
-      // Stocker le JWT et les infos utilisateur
       localStorage.setItem('token', response.token)
       localStorage.setItem('user', JSON.stringify({
         id: response.utilisateurId,
@@ -60,72 +60,78 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-logo">
-          <MapPin size={40} />
+    <AuthLayout>
+      <div className="form-panel-inner">
+        <div className="form-panel-header">
+          <h2>Bienvenue</h2>
+          <p>Connectez-vous pour accéder à votre espace</p>
         </div>
-        <h1>Collectivités Territoriales</h1>
-        <p className="auth-subtitle">Connectez-vous à votre compte</p>
 
         {serverError && (
-          <div className="auth-error">{serverError}</div>
+          <div className="alert alert-danger">{serverError}</div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-          <div className="form-group">
+        <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
+          <div className="input-group">
             <label htmlFor="identifiant">Identifiant</label>
-            <input
-              id="identifiant"
-              type="text"
-              placeholder="Votre identifiant"
-              autoComplete="username"
-              {...register('identifiant')}
-            />
+            <div className="input-wrapper">
+              <input
+                id="identifiant"
+                type="text"
+                placeholder="Entrez votre identifiant"
+                autoComplete="username"
+                className={errors.identifiant ? 'input-error' : ''}
+                {...register('identifiant')}
+              />
+            </div>
             {errors.identifiant && (
-              <span className="form-error">{errors.identifiant.message}</span>
+              <span className="field-error">{errors.identifiant.message}</span>
             )}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="motDePasse">Mot de passe</label>
-            <div className="password-wrapper">
+          <div className="input-group">
+            <div className="input-label-row">
+              <label htmlFor="motDePasse">Mot de passe</label>
+              <Link to="/forgot-password" className="link-sm">Mot de passe oublié ?</Link>
+            </div>
+            <div className="input-wrapper">
               <input
                 id="motDePasse"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Votre mot de passe"
+                placeholder="Entrez votre mot de passe"
                 autoComplete="current-password"
+                className={errors.motDePasse ? 'input-error' : ''}
                 {...register('motDePasse')}
               />
               <button
                 type="button"
-                className="password-toggle"
+                className="input-icon-btn"
                 onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
             {errors.motDePasse && (
-              <span className="form-error">{errors.motDePasse.message}</span>
+              <span className="field-error">{errors.motDePasse.message}</span>
             )}
           </div>
 
-          <button type="submit" className="btn-primary" disabled={loading}>
+          <button type="submit" className="btn-modern" disabled={loading}>
             {loading ? (
               <>
                 <Loader2 size={18} className="spin" />
-                Connexion...
+                Connexion en cours...
               </>
             ) : (
-              'Se connecter'
+              <>
+                Se connecter
+                <ArrowRight size={18} />
+              </>
             )}
           </button>
         </form>
-
-        <div className="auth-links">
-          <Link to="/forgot-password">Mot de passe oublié ?</Link>
-        </div>
       </div>
-    </div>
+    </AuthLayout>
   )
 }
