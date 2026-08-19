@@ -217,8 +217,12 @@ export default function CollectivitesPage() {
         )}
 
         <MapContainer
-          center={[18.9, 47.5]} // Madagascar
+          center={[-19.0, 46.5]} // Centre de Madagascar
           zoom={6}
+          minZoom={5}
+          maxZoom={13}
+          maxBounds={[[-27.0, 42.0], [-10.0, 52.0]]}
+          maxBoundsViscosity={1.0}
           zoomControl={false}
           className="map-leaflet"
         >
