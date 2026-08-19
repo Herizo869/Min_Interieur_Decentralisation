@@ -22,6 +22,17 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS : autoriser le frontend en développement
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevCors", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5174")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // PostgreSQL + PostGIS via Npgsql et NetTopologySuite (chapitre 6)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(
@@ -67,7 +78,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Désactivé en dev HTTP pur
+
+app.UseCors("DevCors");
 
 app.UseAuthentication();
 app.UseAuthorization();
