@@ -46,7 +46,8 @@ export default function LoginPage() {
         role: response.role,
       }))
 
-      navigate('/dashboard')
+      // replace: true écrase l'historique (login) pour empêcher le retour
+      navigate('/dashboard', { replace: true })
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'response' in err) {
         const axiosErr = err as { response?: { data?: { message?: string } } }
