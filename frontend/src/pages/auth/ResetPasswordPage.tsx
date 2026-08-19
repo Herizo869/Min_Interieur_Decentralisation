@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Eye, EyeOff, Loader2, ArrowLeft, ArrowRight, CheckCircle, ShieldCheck } from 'lucide-react'
+import { Eye, EyeOff, Loader2, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react'
 import AuthLayout from '../../components/layout/AuthLayout'
 import { resetPassword } from '../../services/authService'
 

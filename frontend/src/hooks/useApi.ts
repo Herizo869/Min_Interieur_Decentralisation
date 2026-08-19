@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
 import { useAuth } from '../contexts/AuthContext'
-import api from '../services/api'
 
 interface UseApiOptions<T> {
   onSuccess?: (data: T) => void

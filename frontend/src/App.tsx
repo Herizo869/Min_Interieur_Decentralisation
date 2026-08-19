@@ -7,6 +7,7 @@ import ForgotPasswordPage from './pages/auth/ForgotPasswordPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
 import DashboardPage from './pages/dashboard/DashboardPage'
 import CollectivitesPage from './pages/collectivites/CollectivitesPage'
+import FicheCollectivitePage from './pages/collectivites/FicheCollectivitePage'
 import ProjetsPage from './pages/projets/ProjetsPage'
 import IndicateursPage from './pages/indicateurs/IndicateursPage'
 import LitigesPage from './pages/litiges/LitigesPage'
@@ -29,6 +30,7 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/collectivites" element={<CollectivitesPage />} />
+              <Route path="/collectivites/:id" element={<FicheCollectivitePage />} />
               <Route path="/projets" element={<ProjetsPage />} />
               <Route path="/indicateurs" element={<IndicateursPage />} />
               <Route path="/litiges" element={<LitigesPage />} />

@@ -26,6 +26,15 @@ public class CollectivitesController(ICollectiviteService service, ICollectivite
         }));
     }
 
+    /// <summary>Rechercher les collectivités au format GeoJSON FeatureCollection (carte interactive).</summary>
+    /// <param name="type">Filtre optionnel par sous-type.</param>
+    [HttpGet("geojson")]
+    public async Task<IActionResult> RechercherGeoJson([FromQuery] string? type, CancellationToken ct)
+    {
+        var collection = await service.RechercherGeoJsonAsync(type, ct);
+        return Ok(collection);
+    }
+
     /// <summary>Fiche détaillée d'une collectivité (UC-03/UC-04).</summary>
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> ObtenirParId(Guid id, CancellationToken ct)

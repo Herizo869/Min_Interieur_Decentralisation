@@ -1,4 +1,5 @@
 using Collectivites.Api.Models.Entities;
+using NetTopologySuite.Features;
 
 namespace Collectivites.Api.Services;
 
@@ -10,4 +11,7 @@ public interface ICollectiviteService
 
     /// <summary>Fiche détaillée d'une collectivité (UC-03/UC-04).</summary>
     Task<Collectivite?> ObtenirParIdAsync(Guid id, CancellationToken ct = default);
+
+    /// <summary>Toutes les collectivités sous forme GeoJSON FeatureCollection (carte interactive).</summary>
+    Task<FeatureCollection> RechercherGeoJsonAsync(string? type, CancellationToken ct = default);
 }
