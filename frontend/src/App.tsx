@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider } from './contexts/AuthContext'
 import Layout from './components/layout/Layout'
 import ProtectedRoute from './components/layout/ProtectedRoute'
 import LoginPage from './pages/auth/LoginPage'
@@ -15,30 +16,32 @@ import UtilisateursPage from './pages/utilisateurs/UtilisateursPage'
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Routes publiques */}
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Routes publiques */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-        {/* Routes protégées */}
-        <Route element={<ProtectedRoute />}>
-          <Route element={<Layout />}>
-            <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/collectivites" element={<CollectivitesPage />} />
-            <Route path="/projets" element={<ProjetsPage />} />
-            <Route path="/indicateurs" element={<IndicateursPage />} />
-            <Route path="/litiges" element={<LitigesPage />} />
-            <Route path="/doleances" element={<DoleancesPage />} />
-            <Route path="/exports" element={<ExportsPage />} />
-            <Route path="/utilisateurs" element={<UtilisateursPage />} />
+          {/* Routes protégées */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<Layout />}>
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/collectivites" element={<CollectivitesPage />} />
+              <Route path="/projets" element={<ProjetsPage />} />
+              <Route path="/indicateurs" element={<IndicateursPage />} />
+              <Route path="/litiges" element={<LitigesPage />} />
+              <Route path="/doleances" element={<DoleancesPage />} />
+              <Route path="/exports" element={<ExportsPage />} />
+              <Route path="/utilisateurs" element={<UtilisateursPage />} />
+            </Route>
           </Route>
-        </Route>
 
-        {/* Redirection par défaut */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Redirection par défaut */}
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   )
 }

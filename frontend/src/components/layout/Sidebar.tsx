@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   LayoutDashboard,
   Map,
@@ -11,7 +11,7 @@ import {
   LogOut,
   MapPin,
 } from 'lucide-react'
-import { logout } from '../../utils/auth'
+import { useAuth } from '../../contexts/AuthContext'
 
 const navItems = [
   { to: '/dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
@@ -25,17 +25,7 @@ const navItems = [
 ]
 
 export default function Sidebar() {
-  const navigate = useNavigate()
-
-  function handleLogout() {
-    // Nettoyer le localStorage
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-
-    // Remplacer l'historique pour bloquer le bouton retour
-    window.history.replaceState(null, '', '/login')
-    navigate('/login', { replace: true })
-  }
+  const { logout } = useAuth()
 
   return (
     <aside className="sidebar">
@@ -60,7 +50,7 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-footer">
-        <button className="sidebar-link" onClick={handleLogout}>
+        <button className="sidebar-link" onClick={logout}>
           <LogOut size={18} />
           <span>Déconnexion</span>
         </button>

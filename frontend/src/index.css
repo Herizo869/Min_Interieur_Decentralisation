@@ -720,6 +720,17 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   background: var(--primary-100);
 }
 
+.user-role {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
 /* ============================
    Pages
    ============================ */

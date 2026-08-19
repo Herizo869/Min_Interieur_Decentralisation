@@ -5,7 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Eye, EyeOff, Loader2, ArrowRight } from 'lucide-react'
 import AuthLayout from '../../components/layout/AuthLayout'
-import { login, type LoginRequest } from '../../services/authService'
+import { login as apiLogin, type LoginRequest } from '../../services/authService'
+import { useAuth } from '../../contexts/AuthContext'
 
 const loginSchema = z.object({
   identifiant: z.string().min(1, "L'identifiant est requis"),
@@ -16,6 +17,7 @@ type LoginFormData = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const [serverError, setServerError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -36,17 +38,16 @@ export default function LoginPage() {
         identifiant: data.identifiant,
         motDePasse: data.motDePasse,
       }
-      const response = await login(payload)
+      const response = await apiLogin(payload)
 
-      localStorage.setItem('token', response.token)
-      localStorage.setItem('user', JSON.stringify({
+      // Utilise le contexte Auth pour stocker le token + user
+      login(response.token, {
         id: response.utilisateurId,
         nom: response.nom,
         identifiant: response.identifiant,
         role: response.role,
-      }))
+      })
 
-      // replace: true écrase l'historique (login) pour empêcher le retour
       navigate('/dashboard', { replace: true })
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'response' in err) {
