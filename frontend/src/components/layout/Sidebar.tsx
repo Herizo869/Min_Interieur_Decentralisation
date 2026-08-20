@@ -11,6 +11,7 @@ import {
   LogOut,
   MapPin,
   Upload,
+  History,
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -22,6 +23,7 @@ const navItems = [
   { to: '/indicateurs', label: 'Indicateurs', icon: BarChart3 },
   { to: '/litiges', label: 'Litiges', icon: AlertTriangle },
   { to: '/doleances', label: 'Doléances', icon: MessageSquareWarning },
+  { to: '/historiques', label: 'Historique', icon: History },
   { to: '/exports', label: 'Exports', icon: Download },
   { to: '/utilisateurs', label: 'Utilisateurs', icon: Users },
 ]

@@ -69,6 +69,7 @@ builder.Services.AddScoped<IIndicateurService, IndicateurService>();
 builder.Services.AddScoped<IDoleanceService, DoleanceService>();
 builder.Services.AddScoped<ILitigeService, LitigeService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IHistoriqueService, HistoriqueService>();
 
 var app = builder.Build();
 

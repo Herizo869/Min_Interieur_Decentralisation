@@ -4108,6 +4108,165 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ============================
+   Historique / Audit (Sprint 5.2)
+   ============================ */
+.histo-filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.histo-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+}
+
+.histo-filter-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.histo-filter-count {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-light);
+  padding-bottom: 4px;
+}
+
+.histo-timeline {
+  position: relative;
+}
+
+.histo-jour-group {
+  margin-bottom: 28px;
+}
+
+.histo-jour-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.histo-jour-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex-shrink: 0;
+}
+
+.histo-jour-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-h);
+  text-transform: capitalize;
+}
+
+.histo-jour-count {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.histo-entries {
+  padding-left: 4px;
+  border-left: 2px solid var(--border);
+  margin-left: 4px;
+}
+
+.histo-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0 10px 16px;
+  position: relative;
+  animation: slideUp 0.2s ease-out;
+}
+
+.histo-entry-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 68px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.histo-entry-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  flex-shrink: 0;
+  padding-top: 4px;
+}
+
+.histo-entry-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.histo-entry-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.histo-entry-main {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.histo-entry-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.histo-entry-action {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.histo-entry-entity {
+  font-size: 12px;
+  color: var(--primary);
+  background: var(--primary-50);
+  padding: 1px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.histo-entry-meta {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.histo-entry-author {
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* ============================
    Responsive
    ============================ */
 @media (max-width: 1024px) {
@@ -4153,4 +4312,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .dash-kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .dash-charts-row { grid-template-columns: 1fr; }
   .dash-summary-row { grid-template-columns: 1fr; }
+  .histo-filters { flex-direction: column; align-items: stretch; }
+  .histo-filter-group { min-width: auto; }
+  .histo-filter-count { margin-left: 0; }
 }
