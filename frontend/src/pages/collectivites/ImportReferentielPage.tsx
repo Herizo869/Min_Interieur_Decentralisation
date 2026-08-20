@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react'
-import { useCollectivites, TYPES_COLLECTIVITE, ImportReferentielResultat } from '../../hooks/useCollectivites'
+import { useCollectivites, TYPES_COLLECTIVITE } from '../../hooks/useCollectivites'
+import type { ImportReferentielResultat } from '../../hooks/useCollectivites'
 
 export default function ImportReferentielPage() {
   const { importerReferentiel } = useCollectivites()
