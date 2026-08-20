@@ -12,6 +12,7 @@ import {
   MapPin,
   Upload,
   History,
+  UserCircle,
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -26,6 +27,7 @@ const navItems = [
   { to: '/historiques', label: 'Historique', icon: History },
   { to: '/exports', label: 'Exports', icon: Download },
   { to: '/utilisateurs', label: 'Utilisateurs', icon: Users },
+  { to: '/profil', label: 'Mon Profil', icon: UserCircle },
 ]
 
 export default function Sidebar() {

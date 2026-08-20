@@ -18,6 +18,7 @@ import ExportsPage from './pages/exports/ExportsPage'
 import UtilisateursPage from './pages/utilisateurs/UtilisateursPage'
 import ImportReferentielPage from './pages/collectivites/ImportReferentielPage'
 import HistoriquesPage from './pages/historiques/HistoriquesPage'
+import ProfilPage from './pages/profil/ProfilPage'
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
               <Route path="/historiques" element={<HistoriquesPage />} />
               <Route path="/exports" element={<ExportsPage />} />
               <Route path="/utilisateurs" element={<UtilisateursPage />} />
+              <Route path="/profil" element={<ProfilPage />} />
             </Route>
           </Route>
 

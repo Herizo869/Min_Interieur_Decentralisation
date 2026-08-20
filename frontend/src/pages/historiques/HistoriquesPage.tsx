@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useHistoriques, HistoriqueEntry } from '../../hooks/useHistoriques'
+import { useHistoriques } from '../../hooks/useHistoriques'
+import type { HistoriqueEntry } from '../../hooks/useHistoriques'
 
 const ENTITES = ['', 'Litige', 'Doleance']
 

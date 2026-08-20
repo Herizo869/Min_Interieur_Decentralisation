@@ -117,4 +117,43 @@ public class AuthService(AppDbContext db, IOptions<JwtOptions> options) : IAuthS
 
         await db.SaveChangesAsync(ct);
     }
+
+    public async Task<LoginResponse> ModifierProfilAsync(Guid utilisateurId, ModifierProfilRequest demande, CancellationToken ct = default)
+    {
+        var utilisateur = await db.Utilisateurs.FirstOrDefaultAsync(u => u.Id == utilisateurId, ct);
+        if (utilisateur is null)
+        {
+            throw new InvalidOperationException("Utilisateur introuvable.");
+        }
+
+        // Mettre à jour le nom
+        if (!string.IsNullOrWhiteSpace(demande.Nom))
+        {
+            utilisateur.Nom = demande.Nom;
+        }
+
+        // Mettre à jour le mot de passe si fourni
+        if (!string.IsNullOrWhiteSpace(demande.MotDePasse))
+        {
+            if (demande.MotDePasse != demande.ConfirmationMotDePasse)
+            {
+                throw new InvalidOperationException("Les mots de passe ne correspondent pas.");
+            }
+
+            utilisateur.MotDePasseHash = BCrypt.Net.BCrypt.HashPassword(demande.MotDePasse);
+        }
+
+        await db.SaveChangesAsync(ct);
+
+        // Retourner les infos mises à jour
+        return new LoginResponse
+        {
+            Token = string.Empty, // Pas de nouveau token, le client garde le sien
+            Expiration = DateTime.MinValue,
+            UtilisateurId = utilisateur.Id,
+            Nom = utilisateur.Nom,
+            Identifiant = utilisateur.Identifiant,
+            Role = utilisateur.Role.ToString()
+        };
+    }
 }

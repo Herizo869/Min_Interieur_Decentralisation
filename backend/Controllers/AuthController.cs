@@ -39,6 +39,23 @@ public class AuthController(IAuthService authService) : ControllerBase
         Role = User.FindFirstValue(ClaimTypes.Role)
     });
 
+    /// <summary>Modifier son propre profil (nom, mot de passe).</summary>
+    [HttpPut("me")]
+    [Authorize]
+    public async Task<IActionResult> ModifierProfil([FromBody] ModifierProfilRequest demande, CancellationToken ct)
+    {
+        var utilisateurId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        try
+        {
+            var resultat = await authService.ModifierProfilAsync(utilisateurId, demande, ct);
+            return Ok(resultat);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+    }
+
     /// <summary>Demander la réinitialisation du mot de passe (UC-13) — étape 1.</summary>
     /// <param name="demande">Identifiant de l'utilisateur.</param>
     [HttpPost("forgot-password")]

@@ -17,13 +17,13 @@ public interface IAuthService
     /// </summary>
     /// <exception cref="InvalidOperationException">Identifiant inconnu.</exception>
     Task<ReinitialiserMotDePasseResponse> DemanderReinitialisationAsync(
-        DemanderReinitialisationRequest demande, CancellationToken ct = default);
-
-    /// <summary>
+        DemanderReinitialisationRequest demande, CancellationToken ct = default);    /// <summary>
     /// Réinitialise le mot de passe avec le token reçu (UC-13).
     /// Le token est invalide une fois utilisé ou expiré.
     /// </summary>
     /// <exception cref="UnauthorizedAccessException">Token invalide ou expiré.</exception>
-    Task ReinitialiserMotDePasseAsync(
-        ReinitialiserMotDePasseRequest demande, CancellationToken ct = default);
+    Task ReinitialiserMotDePasseAsync(ReinitialiserMotDePasseRequest demande, CancellationToken ct = default);
+
+    /// <summary>Modification du profil de l'utilisateur courant (nom, mot de passe).</summary>
+    Task<LoginResponse> ModifierProfilAsync(Guid utilisateurId, ModifierProfilRequest demande, CancellationToken ct = default);
 }
