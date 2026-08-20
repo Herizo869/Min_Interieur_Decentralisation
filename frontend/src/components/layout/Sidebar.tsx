@@ -10,12 +10,14 @@ import {
   Users,
   LogOut,
   MapPin,
+  Upload,
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 
 const navItems = [
   { to: '/dashboard', label: 'Tableau de bord', icon: LayoutDashboard },
   { to: '/collectivites', label: 'Collectivités', icon: Map },
+  { to: '/collectivites/import', label: 'Import Référentiel', icon: Upload },
   { to: '/projets', label: 'Projets & Dotations', icon: FolderKanban },
   { to: '/indicateurs', label: 'Indicateurs', icon: BarChart3 },
   { to: '/litiges', label: 'Litiges', icon: AlertTriangle },

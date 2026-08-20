@@ -28,6 +28,13 @@ export interface CollectiviteFeatureCollection {
 }
 
 /** Types de collectivité disponibles pour le filtre. */
+export interface ImportReferentielResultat {
+  importees: number
+  misesAJour: number
+  erreurs: number
+  detailsErreurs: { ligne: number; raison: string }[]
+}
+
 export type TypeCollectivite = 'commune' | 'departement' | 'region' | 'epci'
 
 export const TYPES_COLLECTIVITE: { value: TypeCollectivite | ''; label: string }[] = [
@@ -53,7 +60,22 @@ export function useCollectivites() {
     return response.data
   }, [])
 
-  return { rechercher, obtenirParId }
+  const importerReferentiel = useCallback(async (fichier: File, type?: string) => {
+    const formData = new FormData()
+    formData.append('fichier', fichier)
+
+    const params = new URLSearchParams()
+    if (type) params.set('type', type)
+
+    const response = await api.post<ImportReferentielResultat>(
+      `/api/collectivites/import${params.toString() ? `?${params}` : ''}`,
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 120_000 }
+    )
+    return response.data
+  }, [])
+
+  return { rechercher, obtenirParId, importerReferentiel }
 }
 
 /** Hook dédié à la carte : charge les données GeoJSON avec cache et filtre par type. */

@@ -16,6 +16,7 @@ import DoleanceFormPage from './pages/doleances/DoleanceFormPage'
 import DoleanceSuiviPage from './pages/doleances/DoleanceSuiviPage'
 import ExportsPage from './pages/exports/ExportsPage'
 import UtilisateursPage from './pages/utilisateurs/UtilisateursPage'
+import ImportReferentielPage from './pages/collectivites/ImportReferentielPage'
 
 export default function App() {
   return (
@@ -39,6 +40,7 @@ export default function App() {
               <Route path="/indicateurs" element={<IndicateursPage />} />
               <Route path="/litiges" element={<LitigesPage />} />
               <Route path="/doleances" element={<DoleancesPage />} />
+              <Route path="/collectivites/import" element={<ImportReferentielPage />} />
               <Route path="/exports" element={<ExportsPage />} />
               <Route path="/utilisateurs" element={<UtilisateursPage />} />
             </Route>
