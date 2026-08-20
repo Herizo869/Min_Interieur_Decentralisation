@@ -2958,6 +2958,505 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ============================
+   Suivi Doléance — page publique (Sprint 4.2)
+   ============================ */
+.suivi-public-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px;
+  background: var(--bg);
+}
+
+.suivi-public-card {
+  width: 100%;
+  max-width: 640px;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+  animation: slideUp 0.3s ease-out;
+}
+
+.suivi-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.suivi-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  flex-shrink: 0;
+  transition: all var(--transition);
+}
+
+.suivi-back:hover {
+  background: var(--bg);
+  color: var(--text-h);
+  border-color: var(--text-light);
+}
+
+.suivi-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-h);
+  margin: 0 0 4px;
+}
+
+.suivi-header p {
+  color: var(--text-light);
+  font-size: 14px;
+  margin: 0;
+}
+
+.suivi-search-form {
+  margin-bottom: 24px;
+}
+
+.suivi-search-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suivi-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.suivi-search-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.suivi-search-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-family: var(--mono);
+  color: var(--text-h);
+  background: var(--bg-white);
+  transition: all var(--transition);
+  outline: none;
+  letter-spacing: 0.5px;
+}
+
+.suivi-search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.suivi-search-input::placeholder {
+  color: #94a3b8;
+  font-family: var(--sans);
+  letter-spacing: 0;
+}
+
+.suivi-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  white-space: nowrap;
+}
+
+.suivi-search-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+}
+
+.suivi-search-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.suivi-error {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid #fecaca;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+/* Résultat suivi */
+.suivi-result {
+  animation: slideUp 0.3s ease-out;
+}
+
+.suivi-statut-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.suivi-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+.suivi-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.suivi-info-full {
+  grid-column: 1 / -1;
+}
+
+.suivi-info-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.suivi-info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-h);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.suivi-info-value code {
+  font-family: var(--mono);
+  background: var(--bg-white);
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.suivi-description {
+  padding: 16px 18px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+}
+
+.suivi-description p {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.suivi-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.suivi-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary);
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.suivi-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* ============================
+   Doléances Admin (Sprint 4.2)
+   ============================ */
+.doleances-admin-page {
+  max-width: 1200px;
+  animation: slideUp 0.3s ease-out;
+}
+
+.doleances-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.doleances-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.doleances-header p {
+  color: var(--text-light);
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.doleances-header-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Filtres */
+.doleances-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.doleances-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 220px;
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  transition: all var(--transition);
+}
+
+.doleances-search:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background: var(--bg-white);
+}
+
+.doleances-search svg {
+  color: var(--text-light);
+  flex-shrink: 0;
+}
+
+.doleances-search input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: transparent;
+  width: 100%;
+}
+
+.doleances-search input::placeholder {
+  color: #94a3b8;
+}
+
+.doleances-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.doleances-filter-group svg {
+  color: var(--text-light);
+}
+
+.doleances-filter-group select {
+  padding: 8px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: var(--bg-white);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.doleances-filter-group select:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.doleances-count {
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Loading / Empty */
+.doleances-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 260px;
+  color: var(--text-light);
+}
+
+.doleances-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 260px;
+  color: var(--text-light);
+  text-align: center;
+}
+
+.doleances-empty h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.doleances-empty p {
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Tableau */
+.doleances-table-wrapper {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.doleances-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.doleances-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.doleances-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.doleances-table tr:last-child td {
+  border-bottom: none;
+}
+
+.doleances-table tr:hover td {
+  background: var(--primary-50);
+}
+
+.doleance-numero-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.doleance-numero-cell code {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.doleances-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.doleances-statut-select {
+  padding: 6px 10px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: var(--sans);
+  color: var(--text-h);
+  background: var(--bg-white);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.doleances-statut-select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* ============================
    Responsive
    ============================ */
 @media (max-width: 1024px) {
@@ -2986,4 +3485,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   .exports-grid { grid-template-columns: 1fr; }
   .exports-filters { flex-direction: column; }
   .exports-filter-group { min-width: auto; }
+  .suivi-search-input-wrapper { flex-direction: column; }
+  .suivi-info-grid { grid-template-columns: 1fr; }
+  .doleances-filters { flex-direction: column; align-items: stretch; }
+  .doleances-search { min-width: auto; }
+  .doleances-filter-group { flex-wrap: wrap; }
+  .doleances-table-wrapper { overflow-x: auto; }
+  .doleances-table { min-width: 750px; }
 }

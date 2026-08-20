@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  MapPin, Send, AlertTriangle, CheckCircle, ArrowLeft, X
+  MapPin, Send, AlertTriangle, CheckCircle, ArrowLeft, X, Search
 } from 'lucide-react'
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
 import L from 'leaflet'
@@ -118,6 +118,9 @@ export default function DoleanceFormPage() {
           <div className="doleance-success-actions">
             <button className="doleance-btn-primary" onClick={() => navigate('/')}>
               Retour à l'accueil
+            </button>
+            <button className="doleance-btn-outline" onClick={() => navigate('/doleances/suivi')}>
+              <Search size={14} /> Suivre ma doléance
             </button>
             <button className="doleance-btn-outline" onClick={() => { setResult(null); setForm(EMPTY_FORM); setErrors({}) }}>
               Déposer une autre doléance
