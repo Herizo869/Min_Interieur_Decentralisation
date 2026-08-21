@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useProfil } from '../../hooks/useProfil'
+import { CheckCircle, AlertTriangle } from 'lucide-react'
 
 const ROLE_LABELS: Record<string, string> = {
   Administrateur: 'Administrateur',
@@ -102,12 +103,12 @@ export default function ProfilPage() {
         {/* Messages */}
         {success && (
           <div className="profil-success">
-            ✅ Profil mis à jour avec succès.
+            <CheckCircle size={16} /> Profil mis à jour avec succès.
           </div>
         )}
         {error && (
           <div className="profil-error">
-            ⚠️ {error}
+            <AlertTriangle size={16} /> {error}
           </div>
         )}
 

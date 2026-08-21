@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { useCollectivites, TYPES_COLLECTIVITE } from '../../hooks/useCollectivites'
 import type { ImportReferentielResultat } from '../../hooks/useCollectivites'
+import { FileText, FolderOpen, AlertTriangle, CheckCircle, Loader2 } from 'lucide-react'
 
 export default function ImportReferentielPage() {
   const { importerReferentiel } = useCollectivites()
@@ -97,13 +98,13 @@ export default function ImportReferentielPage() {
           />
           {fichier ? (
             <div className="import-file-info">
-              <div className="import-file-icon">📄</div>
+              <div className="import-file-icon"><FileText size={36} color="var(--success)" /></div>
               <div className="import-file-name">{fichier.name}</div>
               <div className="import-file-size">{(fichier.size / 1024 / 1024).toFixed(2)} Mo</div>
             </div>
           ) : (
             <div className="import-placeholder">
-              <div className="import-placeholder-icon">📁</div>
+              <div className="import-placeholder-icon"><FolderOpen size={48} color="var(--text-muted)" /></div>
               <div className="import-placeholder-text">
                 Glissez votre fichier GeoJSON ici
               </div>
@@ -162,7 +163,7 @@ export default function ImportReferentielPage() {
         {/* Erreur */}
         {error && (
           <div className="import-error">
-            <span className="import-error-icon">⚠️</span>
+            <span className="import-error-icon"><AlertTriangle size={18} /></span>
             {error}
           </div>
         )}
@@ -203,7 +204,7 @@ export default function ImportReferentielPage() {
 
             {resultat.erreurs === 0 && (
               <div className="import-success-message">
-                ✅ Import terminé avec succès. {resultat.importees} collectivité(s) créée(s), {resultat.misesAJour} mise(s) à jour.
+                <CheckCircle size={16} /> Import termine avec succes. {resultat.importees} collectivité(s) créée(s), {resultat.misesAJour} mise(s) à jour.
               </div>
             )}
           </div>

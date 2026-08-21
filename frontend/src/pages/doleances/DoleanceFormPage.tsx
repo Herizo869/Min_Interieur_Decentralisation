@@ -17,11 +17,11 @@ L.Icon.Default.mergeOptions({
 })
 
 const CATEGORIES_LABELS: Record<string, string> = {
-  Voirie: '🛣️ Voirie',
-  Eclairage: '💡 Éclairage public',
-  Environnement: '🌿 Environnement',
-  Assainissement: '💧 Assainissement',
-  Autre: '📝 Autre',
+  Voirie: 'Voirie',
+  Eclairage: 'Eclairage public',
+  Environnement: 'Environnement',
+  Assainissement: 'Assainissement',
+  Autre: 'Autre',
 }
 
 function MapClickHandler({ onPointSelect }: { onPointSelect: (lat: number, lng: number) => void }) {
@@ -194,7 +194,7 @@ export default function DoleanceFormPage() {
             {errors.point && <span className="field-error">{errors.point}</span>}
             {form.point && (
               <div className="doleance-coords">
-                📍 {form.point.coordinates[1].toFixed(5)}, {form.point.coordinates[0].toFixed(5)}
+                <MapPin size={14} /> {form.point.coordinates[1].toFixed(5)}, {form.point.coordinates[0].toFixed(5)}
                 <button type="button" className="doleance-clear-point" onClick={() => setForm((p) => ({ ...p, point: null }))}>
                   <X size={12} /> Supprimer
                 </button>

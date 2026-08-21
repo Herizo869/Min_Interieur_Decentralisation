@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useHistoriques } from '../../hooks/useHistoriques'
 import type { HistoriqueEntry } from '../../hooks/useHistoriques'
+import { AlertTriangle, MessageSquareWarning, FileText } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 const ENTITES = ['', 'Litige', 'Doleance']
 
-const ENTITE_ICONS: Record<string, string> = {
-  Litige: '⚠️',
-  Doleance: '📢',
+const ENTITE_ICONS: Record<string, LucideIcon> = {
+  Litige: AlertTriangle,
+  Doleance: MessageSquareWarning,
 }
 
 const ACTION_COLORS: Record<string, string> = {
@@ -120,7 +122,7 @@ export default function HistoriquesPage() {
         <div className="loading-state">Chargement de l'historique…</div>
       ) : entries.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">📋</div>
+          <div className="empty-icon"><FileText size={32} color="var(--text-muted)" /></div>
           <div>Aucun événement d'audit trouvé.</div>
         </div>
       ) : (
@@ -147,7 +149,7 @@ export default function HistoriquesPage() {
                     <div className="histo-entry-content">
                       <div className="histo-entry-main">
                         <span className="histo-entry-icon">
-                          {ENTITE_ICONS[entry.entite] || '📝'}
+                          {(() => { const Icon = ENTITE_ICONS[entry.entite] || FileText; return <Icon size={14} />; })()}
                         </span>
                         <span className="histo-entry-action">{entry.action}</span>
                         <span className="histo-entry-entity">{entry.entite}</span>

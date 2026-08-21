@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MapContainer, TileLayer, GeoJSON, ZoomControl } from 'react-leaflet'
+import { MapContainer, TileLayer, ZoomControl, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { MapPin, Search, Layers, Info, X, ExternalLink } from 'lucide-react'
@@ -81,6 +81,56 @@ function featurePopup(feature: CollectiviteFeature): L.Popup {
   return L.popup({ maxWidth: 300 }).setContent(html)
 }
 
+// ─── Composant couche GeoJSON gérée manuellement ─────────
+function GeoJsonLayer({ data, onFeatureClick }: { data: GeoJSON.FeatureCollection; onFeatureClick: (f: CollectiviteFeature) => void }) {
+  const map = useMap()
+  const layerRef = useRef<L.GeoJSON | null>(null)
+
+  useEffect(() => {
+    // Supprimer l'ancienne couche
+    if (layerRef.current) {
+      map.removeLayer(layerRef.current)
+      layerRef.current = null
+    }
+
+    if (!data.features.length) return
+
+    // Créer la nouvelle couche
+    const geoLayer = L.geoJSON(data, {
+      style: styleFeature,
+      onEachFeature: (feature, layer) => {
+        const popup = featurePopup(feature as unknown as CollectiviteFeature)
+        layer.bindPopup(popup.getContent() as string)
+        layer.on({
+          click: (e) => {
+            const m = e.target._map
+            const bounds = e.target.getBounds()
+            m.fitBounds(bounds, { padding: [50, 50], maxZoom: 18 })
+            onFeatureClick(feature as unknown as CollectiviteFeature)
+          },
+          mouseover: (e) => {
+            e.target.setStyle({ weight: 3, fillOpacity: 0.3 })
+            e.target.bringToFront()
+          },
+          mouseout: (e) => {
+            e.target.setStyle(styleFeature(feature))
+          },
+        })
+      },
+    }).addTo(map)
+
+    layerRef.current = geoLayer
+
+    // Cleanup
+    return () => {
+      map.removeLayer(geoLayer)
+      layerRef.current = null
+    }
+  }, [data, map, onFeatureClick])
+
+  return null
+}
+
 // ─── Composant principal ──────────────────────────────────
 export default function CollectivitesPage() {
   const navigate = useNavigate()
@@ -134,7 +184,7 @@ export default function CollectivitesPage() {
     return { total: geoData.features.length, byType }
   }, [geoData])
 
-  const handleFeatureClick = useCallback((_e: L.LeafletMouseEvent, feature: CollectiviteFeature) => {
+  const handleFeatureClick = useCallback((feature: CollectiviteFeature) => {
     setSelectedFeature(feature)
   }, [])
 
@@ -232,30 +282,9 @@ export default function CollectivitesPage() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          <GeoJSON
-            key={mapKey}
+          <GeoJsonLayer
             data={filteredGeoData}
-            style={styleFeature}
-            onEachFeature={(feature, layer) => {
-              const popup = featurePopup(feature as unknown as CollectiviteFeature)
-              layer.bindPopup(popup.getContent() as string)
-              layer.on({
-                click: (e) => {
-                  // Zoom sur la feature cliquée
-                  const map = e.target._map
-                  const bounds = e.target.getBounds()
-                  map.fitBounds(bounds, { padding: [50, 50], maxZoom: 18 })
-                  handleFeatureClick(e, feature as unknown as CollectiviteFeature)
-                },
-                mouseover: (e) => {
-                  e.target.setStyle({ weight: 3, fillOpacity: 0.3 })
-                  e.target.bringToFront()
-                },
-                mouseout: (e) => {
-                  e.target.setStyle(styleFeature(feature))
-                },
-              })
-            }}
+            onFeatureClick={handleFeatureClick}
           />
         </MapContainer>
 

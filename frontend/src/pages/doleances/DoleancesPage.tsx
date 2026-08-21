@@ -17,11 +17,11 @@ const STATUT_CONFIG: Record<string, { label: string; color: string; bg: string; 
 }
 
 const CATEGORIES_LABELS: Record<string, string> = {
-  Voirie: '🛣️ Voirie',
-  Eclairage: '💡 Éclairage',
-  Environnement: '🌿 Environnement',
-  Assainissement: '💧 Assainissement',
-  Autre: '📝 Autre',
+  Voirie: 'Voirie',
+  Eclairage: 'Eclairage',
+  Environnement: 'Environnement',
+  Assainissement: 'Assainissement',
+  Autre: 'Autre',
 }
 
 function formatDate(iso: string): string {

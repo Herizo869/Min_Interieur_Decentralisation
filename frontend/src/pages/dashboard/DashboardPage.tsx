@@ -3,6 +3,12 @@ import {
   PieChart, Pie, Cell, BarChart, Bar,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
+import {
+  Building2, FolderKanban, CircleDollarSign,
+  AlertTriangle, MessageSquareWarning, Users,
+  BarChart3, UserCheck,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#f97316', '#ec4899']
 
@@ -43,21 +49,28 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
   )
 }
 
+interface KpiItem {
+  label: string
+  value: number | string
+  icon: LucideIcon
+  color: string
+}
+
 export default function DashboardPage() {
   const { stats, loading, error } = useDashboard()
 
-  if (loading) return <div className="page-container"><div className="loading-state">Chargement du tableau de bord…</div></div>
-  if (error || !stats) return <div className="page-container"><div className="error-state">{error || 'Aucune donnée disponible.'}</div></div>
+  if (loading) return <div className="page-container"><div className="loading-state">Chargement du tableau de bord...</div></div>
+  if (error || !stats) return <div className="page-container"><div className="error-state">{error || 'Aucune donnee disponible.'}</div></div>
 
   const { collectivites, projets, indicateurs, litiges, doléances, utilisateurs } = stats
 
-  const kpis = [
-    { label: 'Collectivités', value: collectivites.total, icon: '🏛️', color: '#3b82f6' },
-    { label: 'Projets', value: projets.total, icon: '📂', color: '#10b981' },
-    { label: 'Montant total', value: `${formatMontant(projets.montantTotal)}`, icon: '💰', color: '#f59e0b', suffix: '' },
-    { label: 'Litiges ouverts', value: litiges.ouverts, icon: '⚠️', color: '#ef4444' },
-    { label: 'Doléances en attente', value: doléances.enAttente, icon: '📢', color: '#f97316' },
-    { label: 'Utilisateurs actifs', value: utilisateurs.actifs, icon: '👥', color: '#8b5cf6' },
+  const kpis: KpiItem[] = [
+    { label: 'Collectivites', value: collectivites.total, icon: Building2, color: '#3b82f6' },
+    { label: 'Projets', value: projets.total, icon: FolderKanban, color: '#10b981' },
+    { label: 'Montant total', value: `${formatMontant(projets.montantTotal)}`, icon: CircleDollarSign, color: '#f59e0b' },
+    { label: 'Litiges ouverts', value: litiges.ouverts, icon: AlertTriangle, color: '#ef4444' },
+    { label: 'Doleances en attente', value: doléances.enAttente, icon: MessageSquareWarning, color: '#f97316' },
+    { label: 'Utilisateurs actifs', value: utilisateurs.actifs, icon: Users, color: '#8b5cf6' },
   ]
 
   return (
@@ -73,7 +86,9 @@ export default function DashboardPage() {
       <div className="dash-kpi-grid">
         {kpis.map((kpi) => (
           <div key={kpi.label} className="dash-kpi-card" style={{ borderTopColor: kpi.color }}>
-            <div className="dash-kpi-icon">{kpi.icon}</div>
+            <div className="dash-kpi-icon" style={{ color: kpi.color }}>
+              <kpi.icon size={24} />
+            </div>
             <div className="dash-kpi-content">
               <div className="dash-kpi-value" style={{ color: kpi.color }}>
                 {kpi.value}
@@ -86,9 +101,8 @@ export default function DashboardPage() {
 
       {/* Charts Row 1 */}
       <div className="dash-charts-row">
-        {/* Collectivités par type — Pie */}
         <div className="dash-chart-card">
-          <h3 className="dash-chart-title">Collectivités par type</h3>
+          <h3 className="dash-chart-title">Collectivites par type</h3>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
               <Pie data={toPieData(collectivites.parType)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
@@ -101,7 +115,6 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </div>
 
-        {/* Projets par statut — Bar */}
         <div className="dash-chart-card">
           <h3 className="dash-chart-title">Projets par statut</h3>
           <ResponsiveContainer width="100%" height={260}>
@@ -119,7 +132,6 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </div>
 
-        {/* Litiges par statut — Pie */}
         <div className="dash-chart-card">
           <h3 className="dash-chart-title">Litiges par statut</h3>
           <ResponsiveContainer width="100%" height={260}>
@@ -137,9 +149,8 @@ export default function DashboardPage() {
 
       {/* Charts Row 2 */}
       <div className="dash-charts-row">
-        {/* Doléances par catégorie — Bar */}
         <div className="dash-chart-card">
-          <h3 className="dash-chart-title">Doléances par catégorie</h3>
+          <h3 className="dash-chart-title">Doleances par categorie</h3>
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={toBarData(doléances.parCategorie)}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -155,9 +166,8 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </div>
 
-        {/* Doléances par statut — Pie */}
         <div className="dash-chart-card">
-          <h3 className="dash-chart-title">Doléances par statut</h3>
+          <h3 className="dash-chart-title">Doleances par statut</h3>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
               <Pie data={toPieData(doléances.parStatut)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
@@ -170,9 +180,8 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </div>
 
-        {/* Utilisateurs par rôle — Pie */}
         <div className="dash-chart-card">
-          <h3 className="dash-chart-title">Utilisateurs par rôle</h3>
+          <h3 className="dash-chart-title">Utilisateurs par role</h3>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
               <Pie data={toPieData(utilisateurs.parRole)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
@@ -189,21 +198,21 @@ export default function DashboardPage() {
       {/* Summary Row */}
       <div className="dash-summary-row">
         <div className="dash-summary-card">
-          <div className="dash-summary-icon">📊</div>
+          <div className="dash-summary-icon"><BarChart3 size={22} color="#3b82f6" /></div>
           <div>
             <div className="dash-summary-value">{indicateurs.total}</div>
-            <div className="dash-summary-label">Indicateurs ({indicateurs.collectivitesCouvertes} collectivités couvertes)</div>
+            <div className="dash-summary-label">Indicateurs ({indicateurs.collectivitesCouvertes} collectivites couvertes)</div>
           </div>
         </div>
         <div className="dash-summary-card">
-          <div className="dash-summary-icon">👥</div>
+          <div className="dash-summary-icon"><UserCheck size={22} color="#8b5cf6" /></div>
           <div>
             <div className="dash-summary-value">{utilisateurs.total}</div>
             <div className="dash-summary-label">Utilisateurs ({utilisateurs.actifs} actifs)</div>
           </div>
         </div>
         <div className="dash-summary-card">
-          <div className="dash-summary-icon">💰</div>
+          <div className="dash-summary-icon"><CircleDollarSign size={22} color="#f59e0b" /></div>
           <div>
             <div className="dash-summary-value">{formatMontant(projets.montantMoyen)}</div>
             <div className="dash-summary-label">Montant moyen par projet</div>
