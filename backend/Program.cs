@@ -95,6 +95,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         await db.Database.MigrateAsync();
+        await SeedData.SeedAsync(db);
         if (!await db.Utilisateurs.AnyAsync(u => u.Identifiant == "admin"))
         {
             db.Utilisateurs.Add(new Utilisateur

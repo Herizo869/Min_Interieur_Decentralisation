@@ -220,7 +220,7 @@ export default function CollectivitesPage() {
           center={[-19.0, 46.5]} // Centre de Madagascar
           zoom={6}
           minZoom={5}
-          maxZoom={13}
+          maxZoom={18}
           maxBounds={[[-27.0, 42.0], [-10.0, 52.0]]}
           maxBoundsViscosity={1.0}
           zoomControl={false}
@@ -244,7 +244,7 @@ export default function CollectivitesPage() {
                   // Zoom sur la feature cliquée
                   const map = e.target._map
                   const bounds = e.target.getBounds()
-                  map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 })
+                  map.fitBounds(bounds, { padding: [50, 50], maxZoom: 18 })
                   handleFeatureClick(e, feature as unknown as CollectiviteFeature)
                 },
                 mouseover: (e) => {
