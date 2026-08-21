@@ -7,7 +7,7 @@ using NetTopologySuite.Geometries;
 namespace Collectivites.Api.Data;
 
 /// <summary>
-/// Données de démonstration pour Madagascar — regions, départements, communes,
+/// Données de démonstration pour Madagascar — regions, départements, communes, EPCI,
 /// projets, indicateurs, litiges, doléances, utilisateurs et historique.
 /// </summary>
 public static class SeedData
@@ -31,6 +31,11 @@ public static class SeedData
         // ── Communes ──
         var communes = CreerCommunes(departements);
         db.Communes.AddRange(communes);
+        await db.SaveChangesAsync();
+
+        // ── EPCI ──
+        var epcis = CreerEpcis(communes);
+        db.Epcis.AddRange(epcis);
         await db.SaveChangesAsync();
 
         // ── Utilisateurs ──
@@ -186,13 +191,13 @@ public static class SeedData
                    [0.0, 0.15, 0.25],
                    [0.0, 0.12, 0.05]),
             [10] = (["Fianarantsoa", "Ambohimasay", "Isorana"],
-                   [190_000, 85_000, 55_000],
-                   [0.0, 0.10, 0.20],
-                   [0.0, 0.15, 0.08]),
+                    [190_000, 85_000, 55_000],
+                    [0.0, 0.10, 0.20],
+                    [0.0, 0.15, 0.08]),
             [11] = (["Ambalavao", "Begogo", "Ianakafy"],
-                   [40_000, 25_000, 18_000],
-                   [0.0, 0.12, 0.22],
-                   [0.0, 0.08, 0.16]),
+                    [40_000, 25_000, 18_000],
+                    [0.0, 0.12, 0.22],
+                    [0.0, 0.08, 0.16]),
         };
 
         foreach (var dep in departements)
@@ -219,6 +224,76 @@ public static class SeedData
             }
         }
         return communes;
+    }
+
+    // ═══════════════════════════════════════════
+    //  EPCI (groupements de communes)
+    // ═══════════════════════════════════════════
+    private static List<Epci> CreerEpcis(List<Commune> communes)
+    {
+        var epcis = new List<Epci>();
+
+        // EPCI 1 — Ambohidratrimo + Andohatapenaka (communes 2, 3)
+        if (communes.Count >= 3)
+        {
+            var c1 = communes[1]; // Ambohidratrimo
+            var c2 = communes[2]; // Andohatapenaka
+            epcis.Add(new Epci
+            {
+                Id = Guid.NewGuid(),
+                Nom = "Communauté urbaine Antananarivo-Nord",
+                CodeAdministratif = "E01",
+                Population = c1.Population + c2.Population,
+                Siren = "200012345",
+                Nature = "Communauté urbaine",
+                Contour = PolygoneSimple(
+                    Math.Min(c1.Contour.EnvelopeInternal.MinY, c2.Contour.EnvelopeInternal.MinY) - 0.01,
+                    Math.Min(c1.Contour.EnvelopeInternal.MinX, c2.Contour.EnvelopeInternal.MinX) - 0.01,
+                    0.35, 0.45)
+            });
+        }
+
+        // EPCI 2 — Ambositra + Fandriana (communes 4, 5)
+        if (communes.Count >= 5)
+        {
+            var c1 = communes[3]; // Ambositra
+            var c2 = communes[4]; // Fandriana
+            epcis.Add(new Epci
+            {
+                Id = Guid.NewGuid(),
+                Nom = "SIVOM Amoron'i Mania",
+                CodeAdministratif = "E02",
+                Population = c1.Population + c2.Population,
+                Siren = "200067890",
+                Nature = "SIVOM",
+                Contour = PolygoneSimple(
+                    Math.Min(c1.Contour.EnvelopeInternal.MinY, c2.Contour.EnvelopeInternal.MinY) - 0.01,
+                    Math.Min(c1.Contour.EnvelopeInternal.MinX, c2.Contour.EnvelopeInternal.MinX) - 0.01,
+                    0.30, 0.40)
+            });
+        }
+
+        // EPCI 3 — Antsirabe + Soaviaritra (communes 7, 8)
+        if (communes.Count >= 8)
+        {
+            var c1 = communes[6]; // Antsirabe
+            var c2 = communes[7]; // Soaviaritra
+            epcis.Add(new Epci
+            {
+                Id = Guid.NewGuid(),
+                Nom = "District d'Antsirabe-II",
+                CodeAdministratif = "E03",
+                Population = c1.Population + c2.Population,
+                Siren = "200011223",
+                Nature = "District",
+                Contour = PolygoneSimple(
+                    Math.Min(c1.Contour.EnvelopeInternal.MinY, c2.Contour.EnvelopeInternal.MinY) - 0.01,
+                    Math.Min(c1.Contour.EnvelopeInternal.MinX, c2.Contour.EnvelopeInternal.MinX) - 0.01,
+                    0.28, 0.38)
+            });
+        }
+
+        return epcis;
     }
 
     // ═══════════════════════════════════════════
@@ -262,22 +337,42 @@ public static class SeedData
 
         var specs = new[]
         {
+            // ── Infrastructures routières ──
             ("Réhabilitation RN7 Antananarivo – Toamasina", 45_000_000m, "MGA", StatutProjet.EnCours),
-            ("Construction école primaire Ambohidratrimo", 85_000_000m, "MGA", StatutProjet.EnCours),
-            ("Réseau d'éclairage public Mahajanga", 32_000_000m, "MGA", StatutProjet.Termine),
-            ("Adduction eau potable Antsirabe", 120_000_000m, "MGA", StatutProjet.EnPreparation),
-            ("Centre de santé Fianarantsoa", 95_000_000m, "MGA", StatutProjet.EnCours),
-            ("Marché couvert Toamasina", 60_000_000m, "MGA", StatutProjet.Termine),
-            ("Assainissement Nosy Be", 75_000_000m, "MGA", StatutProjet.EnPreparation),
             ("Route communale Ambositra – Fandriana", 55_000_000m, "MGA", StatutProjet.EnCours),
-            ("Bibliothèque universitaire Antananarivo", 40_000_000m, "MGA", StatutProjet.Termine),
-            ("Stade municipal Antsiranana", 150_000_000m, "MGA", StatutProjet.EnPreparation),
             ("Voirie urbaine Ambalavao", 25_000_000m, "MGA", StatutProjet.EnCours),
-            ("Potable eau Fénérive Est", 68_000_000m, "MGA", StatutProjet.Termine),
-            ("Collège Ambanja", 42_000_000m, "MGA", StatutProjet.EnPreparation),
             ("Pavage rue Ranaivo Antsirabe", 38_000_000m, "MGA", StatutProjet.EnCours),
+            ("Bitumage route Mahajanga – Mitsinjo", 62_000_000m, "MGA", StatutProjet.EnPreparation),
+
+            // ── Éducation ──
+            ("Construction école primaire Ambohidratrimo", 85_000_000m, "MGA", StatutProjet.EnCours),
+            ("Bibliothèque universitaire Antananarivo", 40_000_000m, "MGA", StatutProjet.Termine),
+            ("Collège Ambanja", 42_000_000m, "MGA", StatutProjet.EnPreparation),
+            ("Réhabilitation lycée Toamasina", 52_000_000m, "MGA", StatutProjet.Termine),
+
+            // ── Eau & assainissement ──
+            ("Adduction eau potable Antsirabe", 120_000_000m, "MGA", StatutProjet.EnPreparation),
+            ("Assainissement Nosy Be", 75_000_000m, "MGA", StatutProjet.EnPreparation),
+            ("Potable eau Fénérive Est", 68_000_000m, "MGA", StatutProjet.Termine),
+            ("Réseau d'assainissement Mahajanga", 95_000_000m, "MGA", StatutProjet.EnCours),
+
+            // ── Santé ──
+            ("Centre de santé Fianarantsoa", 95_000_000m, "MGA", StatutProjet.EnCours),
+            ("Clinique communale Antsiranana", 78_000_000m, "MGA", StatutProjet.EnPreparation),
+
+            // ── Marchés & équipements ──
+            ("Marché couvert Toamasina", 60_000_000m, "MGA", StatutProjet.Termine),
             ("Marché artisanal Ambositra", 28_000_000m, "MGA", StatutProjet.Termine),
+            ("Stade municipal Antsiranana", 150_000_000m, "MGA", StatutProjet.EnPreparation),
+
+            // ── Éclairage & énergie ──
+            ("Réseau d'éclairage public Mahajanga", 32_000_000m, "MGA", StatutProjet.Termine),
+            ("Éclairage solaire Ambatolampy", 18_000_000m, "MGA", StatutProjet.EnCours),
+
+            // ── Dotations ──
             ("Dotation de fonctionnement Mahajanga", 50_000_000m, "MGA", StatutProjet.Termine),
+            ("Dotation d'investissement Fianarantsoa", 35_000_000m, "MGA", StatutProjet.Termine),
+            ("Subvention école privée Antananarivo", 22_000_000m, "MGA", StatutProjet.Termine),
         };
 
         foreach (var (intitule, montant, devise, statut) in specs)
@@ -316,12 +411,16 @@ public static class SeedData
             ("Superficie agricole", "ha", "DRIAE", 500m, 5000m),
             ("Densité de population", "hab/km²", "INSTAT", 50m, 800m),
             ("Taux de pauvreté", "%", "INSTAT", 40m, 80m),
+            ("Taux d'alphabétisation", "%", "INSTAT", 55m, 90m),
+            ("Nombre de marchés", "unité", "DREAL", 1m, 5m),
+            ("Superficie urbanisée", "ha", "DPU", 100m, 2000m),
+            ("Nombre de ponts", "unité", "DTR", 0m, 8m),
         };
 
         foreach (var commune in communes)
         {
-            // 4-6 indicateurs par commune
-            var nb = rng.Next(4, 7);
+            // 5-8 indicateurs par commune
+            var nb = rng.Next(5, 9);
             var selected = types.OrderBy(_ => rng.Next()).Take(nb);
             foreach (var (type, unite, source, min, max) in selected)
             {
@@ -356,10 +455,14 @@ public static class SeedData
             "Litige concernant la rivière Amboniloha — cours d'eau frontalier mal délimité.",
             "Conflit de périmètre sur les terrains communalisés du quartier Tanambao.",
             "Dépassement des limites reconnues lors de la numérisation du cadastre communal.",
+            "Limite contestée le long de la route nationale RN7 — chaque commune revendique la juridiction.",
+            "Chevauchement de parcelles forestières classées entre deux communes limitrophes.",
+            "Zone industrielle contestée — attribution floue entre deux collectivités.",
+            "Limite floue autour du lac communal — pêcheurs des deux côtés se disputent l'accès.",
         };
 
         // Paires de communes adjacentes (indices)
-        var paires = new[] { (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11) };
+        var paires = new[] { (0, 1), (2, 3), (4, 5), (6, 7), (8, 9), (10, 11), (1, 2), (3, 4), (5, 6), (7, 8) };
 
         for (int i = 0; i < Math.Min(paires.Length, descriptions.Length); i++)
         {
@@ -396,21 +499,35 @@ public static class SeedData
 
         var specs = new[]
         {
+            // ── Voirie ──
             ("Route nationale RN7 en mauvais état entre Ambositra et Fandriana, nids-de-poule dangereux.", CategorieDoleance.Voirie, StatutDoleance.Nouveau, "Andry R."),
-            ("Éclairage public défectueux avenue de l'Indépendance, zone dangereuse la nuit.", CategorieDoleance.Eclairage, StatutDoleance.EnCours, "Fara M."),
-            ("Décharge sauvage près du marché, pollution et odeurs insupportables.", CategorieDoleance.Environnement, StatutDoleance.Resolu, "Jean R."),
-            ("Fuite d'eau potable depuis 3 jours dans le quartier Tanambao.", CategorieDoleance.Assainissement, StatutDoleance.EnCours, "Hélène P."),
             ("Pont en bois dangereux sur la rivière Tsiribihina, risque d'effondrement.", CategorieDoleance.Voirie, StatutDoleance.Nouveau, "Désiré K."),
-            ("Panne de courant électrique récurrente dans tout le quartierAnalakely.", CategorieDoleance.Autre, StatutDoleance.Nouveau, "Marie N."),
             ("Trottoirs inexistants rue Ranaivo, les piétons marchent sur la chaussée.", CategorieDoleance.Voirie, StatutDoleance.EnCours, "Paul B."),
-            ("Canal d'assainissement bouché, eaux stagnantes et risque sanitaire.", CategorieDoleance.Assainissement, StatutDoleance.Nouveau, "Sylvie R."),
-            ("Arbre menaçant de tomber sur la route principale, pas d'intervention depuis 2 semaines.", CategorieDoleance.Environnement, StatutDoleance.EnCours, "Robert T."),
-            ("Éclairage public installé mais jamais allumé depuis 6 mois.", CategorieDoleance.Eclairage, StatutDoleance.Nouveau, "Lalao A."),
-            ("Dépotoir sauvage au bord de la rivière, eaux contaminées.", CategorieDoleance.Environnement, StatutDoleance.Resolu, "Njiva H."),
-            ("Fossé de drainage comblé, inondation à chaque pluie.", CategorieDoleance.Assainissement, StatutDoleance.EnCours, "Patrick V."),
-            ("École sans fenêtres depuis la tempête, enfants exposés.", CategorieDoleance.Autre, StatutDoleance.Nouveau, "Clément R."),
             ("Feu rouge en panne à la carrefour RN7/RN35, accidents fréquents.", CategorieDoleance.Voirie, StatutDoleance.EnCours, "Hanta T."),
+            ("Chaussée effondrée avenue du 26 Juin, circulation impossible.", CategorieDoleance.Voirie, StatutDoleance.Resolu, "Lova M."),
+
+            // ── Éclairage ──
+            ("Éclairage public défectueux avenue de l'Indépendance, zone dangereuse la nuit.", CategorieDoleance.Eclairage, StatutDoleance.EnCours, "Fara M."),
+            ("Éclairage public installé mais jamais allumé depuis 6 mois.", CategorieDoleance.Eclairage, StatutDoleance.Nouveau, "Lalao A."),
+            ("Lampadaires cassés sur toute la rue du Marché, quartier plongé dans l'obscurité.", CategorieDoleance.Eclairage, StatutDoleance.Resolu, "Nirina B."),
+
+            // ── Environnement ──
+            ("Décharge sauvage près du marché, pollution et odeurs insupportables.", CategorieDoleance.Environnement, StatutDoleance.Resolu, "Jean R."),
+            ("Arbre menaçant de tomber sur la route principale, pas d'intervention depuis 2 semaines.", CategorieDoleance.Environnement, StatutDoleance.EnCours, "Robert T."),
+            ("Dépotoir sauvage au bord de la rivière, eaux contaminées.", CategorieDoleance.Environnement, StatutDoleance.Resolu, "Njiva H."),
             ("Poubelle municipale renversée depuis une semaine, déchets sur la voie publique.", CategorieDoleance.Environnement, StatutDoleance.Nouveau, "Fidy M."),
+
+            // ── Assainissement ──
+            ("Fuite d'eau potable depuis 3 jours dans le quartier Tanambao.", CategorieDoleance.Assainissement, StatutDoleance.EnCours, "Hélène P."),
+            ("Canal d'assainissement bouché, eaux stagnantes et risque sanitaire.", CategorieDoleance.Assainissement, StatutDoleance.Nouveau, "Sylvie R."),
+            ("Fossé de drainage comblé, inondation à chaque pluie.", CategorieDoleance.Assainissement, StatutDoleance.EnCours, "Patrick V."),
+            ("Fosse septique débordante au quartier Analakely, odeurs insupportables.", CategorieDoleance.Assainissement, StatutDoleance.Nouveau, "Tovo K."),
+
+            // ── Autre ──
+            ("Panne de courant électrique récurrente dans tout le quartier Analakely.", CategorieDoleance.Autre, StatutDoleance.Nouveau, "Marie N."),
+            ("École sans fenêtres depuis la tempête, enfants exposés.", CategorieDoleance.Autre, StatutDoleance.Nouveau, "Clément R."),
+            ("Signalétique de rue inexistante, les secours ont du mal à localiser les adresses.", CategorieDoleance.Autre, StatutDoleance.EnCours, "Fanja L."),
+            ("Clôture du terrain communal vandalisée, terrain envahi par des buildeurs clandestins.", CategorieDoleance.Autre, StatutDoleance.Resolu, "Michel D."),
         };
 
         foreach (var (desc, categorie, statut, auteur) in specs)
@@ -467,6 +584,18 @@ public static class SeedData
                     Action = "changement de statut : En Instruction → Arbitré",
                     Auteur = "Rija Andrianarivelo",
                     Date = l.DateCreation.AddDays(rng.Next(20, 60))
+                });
+            }
+            if (l.Statut == StatutLitige.Clos)
+            {
+                entries.Add(new Historique
+                {
+                    Id = Guid.NewGuid(),
+                    Entite = "Litige",
+                    EntiteId = l.Id,
+                    Action = "changement de statut : Arbitré → Clos",
+                    Auteur = "Rija Andrianarivelo",
+                    Date = l.DateCreation.AddDays(rng.Next(60, 120))
                 });
             }
         }
