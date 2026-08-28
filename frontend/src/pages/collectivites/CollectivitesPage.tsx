@@ -138,7 +138,7 @@ export default function CollectivitesPage() {
   const [typeFiltre, setTypeFiltre] = useState<TypeCollectivite | ''>('')
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedFeature, setSelectedFeature] = useState<CollectiviteFeature | null>(null)
-  const [mapKey, setMapKey] = useState(0)
+  const [, setMapKey] = useState(0)
 
   // Exposer navigate globalement pour le onclick des popups Leaflet
   useEffect(() => {

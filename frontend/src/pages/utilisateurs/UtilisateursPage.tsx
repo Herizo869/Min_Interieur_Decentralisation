@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
-  Users, Plus, Search, Filter, Edit2, Trash2, X, Loader2, Shield, UserCheck, UserX
+  Users, Plus, Search, Filter, Edit2, X, Loader2, Shield, UserCheck, UserX
 } from 'lucide-react'
 import {
   useUtilisateurs,

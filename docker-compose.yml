@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: 1234
       POSTGRES_DB: collectivites
     ports:
-      - "5433:5432"   # 5433 côté hôte pour éviter le conflit avec le PostgreSQL 18 local
+      - "5700:5432"   # 5700 côté hôte pour éviter la plage Hyper-V (5433-5632)
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:

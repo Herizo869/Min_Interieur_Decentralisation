@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Bell, User, Search, X, MapPin } from 'lucide-react'
+import { Bell, User, Search, X, MapPin, Sun, Moon } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
+import { useTheme } from '../../contexts/ThemeContext'
 import { useCollectivites, type Collectivite } from '../../hooks/useCollectivites'
 
 const pageTitles: Record<string, string> = {
@@ -26,6 +27,7 @@ export default function Header() {
   const location = useLocation()
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { isDark, toggleTheme } = useTheme()
   const { rechercher } = useCollectivites()
   const title = pageTitles[location.pathname] || 'Collectivités territoriales'
 
@@ -147,6 +149,9 @@ export default function Header() {
           )}
         </div>
 
+        <button className="theme-toggle" onClick={toggleTheme} title={isDark ? 'Mode clair' : 'Mode sombre'}>
+          {isDark ? <Sun size={20} /> : <Moon size={20} />}
+        </button>
         <button className="header-icon-btn" title="Notifications">
           <Bell size={20} />
         </button>

@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { useCollectivites, TYPES_COLLECTIVITE } from '../../hooks/useCollectivites'
 import type { ImportReferentielResultat } from '../../hooks/useCollectivites'
-import { FileText, FolderOpen, AlertTriangle, CheckCircle, Loader2 } from 'lucide-react'
+import { FileText, FolderOpen, AlertTriangle, CheckCircle } from 'lucide-react'
 
 export default function ImportReferentielPage() {
   const { importerReferentiel } = useCollectivites()

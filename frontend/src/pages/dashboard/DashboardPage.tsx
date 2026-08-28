@@ -1,7 +1,7 @@
 import { useDashboard } from '../../hooks/useDashboard'
 import {
   PieChart, Pie, Cell, BarChart, Bar,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts'
 import {
   Building2, FolderKanban, CircleDollarSign,
@@ -105,7 +105,7 @@ export default function DashboardPage() {
           <h3 className="dash-chart-title">Collectivites par type</h3>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
-              <Pie data={toPieData(collectivites.parType)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+              <Pie data={toPieData(collectivites.parType)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}>
                 {toPieData(collectivites.parType).map((_, i) => (
                   <Cell key={i} fill={COLORS[i % COLORS.length]} />
                 ))}
@@ -136,7 +136,7 @@ export default function DashboardPage() {
           <h3 className="dash-chart-title">Litiges par statut</h3>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
-              <Pie data={toPieData(litiges.parStatut)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+              <Pie data={toPieData(litiges.parStatut)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}>
                 {toPieData(litiges.parStatut).map((_, i) => (
                   <Cell key={i} fill={Object.values(STATUT_COLORS)[i % Object.values(STATUT_COLORS).length]} />
                 ))}
@@ -170,7 +170,7 @@ export default function DashboardPage() {
           <h3 className="dash-chart-title">Doleances par statut</h3>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
-              <Pie data={toPieData(doléances.parStatut)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+              <Pie data={toPieData(doléances.parStatut)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}>
                 {toPieData(doléances.parStatut).map((_, i) => (
                   <Cell key={i} fill={Object.values(STATUT_COLORS)[i % Object.values(STATUT_COLORS).length]} />
                 ))}
@@ -184,7 +184,7 @@ export default function DashboardPage() {
           <h3 className="dash-chart-title">Utilisateurs par role</h3>
           <ResponsiveContainer width="100%" height={260}>
             <PieChart>
-              <Pie data={toPieData(utilisateurs.parRole)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+              <Pie data={toPieData(utilisateurs.parRole)} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={90} label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}>
                 {toPieData(utilisateurs.parRole).map((_, i) => (
                   <Cell key={i} fill={COLORS[i % COLORS.length]} />
                 ))}
