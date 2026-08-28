@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import {
   MessageSquareWarning, Search, Filter, ExternalLink, CheckCircle, Clock,
-  AlertTriangle, Loader2, X, RefreshCw, MapPin, Copy, Check
+  AlertTriangle, Loader2, X, RefreshCw, MapPin, Copy, Check, Table, Map
 } from 'lucide-react'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import { useDoleances, CATEGORIES, type Doleance } from '../../hooks/useDoleances'
 import { useCollectivites, type Collectivite } from '../../hooks/useCollectivites'
 
@@ -22,6 +25,23 @@ const CATEGORIES_LABELS: Record<string, string> = {
   Environnement: 'Environnement',
   Assainissement: 'Assainissement',
   Autre: 'Autre',
+}
+
+const CATEGORIES_COLORS: Record<string, string> = {
+  Voirie: '#f59e0b',
+  Eclairage: '#3b82f6',
+  Environnement: '#10b981',
+  Assainissement: '#6366f1',
+  Autre: '#64748b',
+}
+
+function createDoleanceIcon(couleur: string): L.DivIcon {
+  return L.divIcon({
+    className: 'doleance-marker-icon',
+    html: `<div style="width:24px;height:24px;border-radius:50%;background:${couleur};border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 12],
+  })
 }
 
 function formatDate(iso: string): string {
@@ -91,6 +111,9 @@ export default function DoleancesPage() {
       setTimeout(() => setCopiedId(null), 2000)
     })
   }
+
+  // Vue
+  const [viewMode, setViewMode] = useState<'table' | 'map'>('table')
 
   // Filtrage côté client (recherche texte)
   const filtered = doleances.filter((d) => {
@@ -180,6 +203,24 @@ export default function DoleancesPage() {
           </select>
         </div>
 
+        {/* Toggle vue table / carte */}
+        <div className="doleances-view-toggle">
+          <button
+            className={`doleances-view-btn ${viewMode === 'table' ? 'active' : ''}`}
+            onClick={() => setViewMode('table')}
+            title="Vue tableau"
+          >
+            <Table size={16} />
+          </button>
+          <button
+            className={`doleances-view-btn ${viewMode === 'map' ? 'active' : ''}`}
+            onClick={() => setViewMode('map')}
+            title="Vue carte"
+          >
+            <Map size={16} />
+          </button>
+        </div>
+
         <span className="doleances-count">
           {filtered.length} doléance{filtered.length !== 1 ? 's' : ''}
         </span>
@@ -221,7 +262,51 @@ export default function DoleancesPage() {
         </div>
       )}
 
-      {!loading && !error && filtered.length > 0 && (
+      {!loading && !error && filtered.length > 0 && viewMode === 'map' && (
+        <div className="doleances-map-wrapper">
+          <MapContainer
+            center={[-18.8, 47.5]}
+            zoom={6}
+            style={{ width: '100%', height: '100%' }}
+            zoomControl={false}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            {filtered.map((d) => {
+              if (!d.geometrie) return null
+              const coords = (d.geometrie as GeoJSON.Point).coordinates as [number, number]
+              const couleur = CATEGORIES_COLORS[d.categorie] || '#64748b'
+              return (
+                <Marker
+                  key={d.id}
+                  position={[coords[1], coords[0]]}
+                  icon={createDoleanceIcon(couleur)}
+                >
+                  <Popup>
+                    <div style={{ minWidth: 180 }}>
+                      <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>
+                        <code style={{ fontSize: 12 }}>{d.numeroSuivi}</code>
+                      </div>
+                      <div style={{ fontSize: 13, color: '#334155', marginBottom: 4 }}>
+                        {d.description.length > 100 ? d.description.slice(0, 100) + '…' : d.description}
+                      </div>
+                      <div style={{ fontSize: 12, color: '#64748b' }}>
+                        <span style={{ color: couleur, fontWeight: 600 }}>{CATEGORIES_LABELS[d.categorie] || d.categorie}</span>
+                        {' · '}{d.auteur}<br />
+                        {d.collectiviteRattacheeNom && <><MapPin size={11} style={{ verticalAlign: -2 }} /> {d.collectiviteRattacheeNom}</>}
+                      </div>
+                    </div>
+                  </Popup>
+                </Marker>
+              )
+            })}
+          </MapContainer>
+        </div>
+      )}
+
+      {!loading && !error && filtered.length > 0 && viewMode === 'table' && (
         <div className="doleances-table-wrapper">
           <table className="doleances-table">
             <thead>

@@ -3375,6 +3375,56 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin: 0;
 }
 
+/* Vue toggle table / carte */
+.doleances-view-toggle {
+  display: flex;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.doleances-view-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 34px;
+  color: var(--text-light);
+  background: var(--bg-white);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.doleances-view-btn:hover {
+  background: var(--primary-50);
+  color: var(--primary);
+}
+
+.doleances-view-btn.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.doleances-view-btn + .doleances-view-btn {
+  border-left: 1.5px solid var(--border);
+}
+
+/* Carte doléances */
+.doleances-map-wrapper {
+  height: 520px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.doleance-marker-icon {
+  background: none !important;
+  border: none !important;
+}
+
 /* Tableau */
 .doleances-table-wrapper {
   background: var(--bg-white);
